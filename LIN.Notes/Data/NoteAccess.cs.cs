@@ -48,7 +48,6 @@ public partial class NoteAccess
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();
@@ -92,7 +91,6 @@ public partial class NoteAccess
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();
@@ -136,7 +134,6 @@ public partial class NoteAccess
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();
@@ -170,7 +167,6 @@ public partial class NoteAccess
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError("Grave-- " + ex.Message);
         }
 
         return new();
@@ -210,7 +206,6 @@ public partial class NoteAccess
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();
@@ -242,7 +237,6 @@ public partial class NoteAccess
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();

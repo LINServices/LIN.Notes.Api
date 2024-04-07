@@ -107,13 +107,8 @@ try
     LIN.Access.Auth.Build.Init();
 
 
-    // Estado del servidor
-    ServerLogger.OpenDate = DateTime.Now;
-
-
     app.Run();
 }
 catch (Exception ex)
 {
-    ServerLogger.LogError("--Servidor--: " + ex.Message);
 }

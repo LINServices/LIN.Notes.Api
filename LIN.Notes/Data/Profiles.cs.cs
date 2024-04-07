@@ -35,7 +35,6 @@ public partial class Profiles
             catch (Exception ex)
             {
                 transaction.Rollback();
-                ServerLogger.LogError(ex.Message);
                 if ((ex.InnerException?.Message.Contains("Violation of UNIQUE KEY constraint") ?? false) || (ex.InnerException?.Message.Contains("duplicate key") ?? false))
                     return new(Responses.ExistAccount);
             }
@@ -67,7 +66,6 @@ public partial class Profiles
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();
@@ -97,7 +95,6 @@ public partial class Profiles
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();
@@ -127,7 +124,6 @@ public partial class Profiles
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();
@@ -157,7 +153,6 @@ public partial class Profiles
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();
