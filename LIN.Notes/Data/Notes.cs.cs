@@ -106,7 +106,8 @@ public partial class Notes
                       {
                           Content = I.Content,
                           Id = I.Id,
-                          Tittle = I.Tittle
+                          Tittle = I.Tittle,
+                          Color = I.Color
                       };
 
 
@@ -139,7 +140,7 @@ public partial class Notes
     /// <param name="name">Nuevo nombre.</param>
     /// <param name="description">Nueva descripción.</param>
     /// <param name="context">Contexto de conexión..</param>
-    public async static Task<ResponseBase> Update(int id, string name, string description, Conexión context)
+    public async static Task<ResponseBase> Update(int id, string name, string description,int color, Conexión context)
     {
 
         // Ejecución
@@ -148,7 +149,7 @@ public partial class Notes
 
             var res = await (from I in context.DataBase.Notes
                              where I.Id == id
-                             select I).ExecuteUpdateAsync(t => t.SetProperty(a => a.Tittle, name).SetProperty(a => a.Content, description));
+                             select I).ExecuteUpdateAsync(t => t.SetProperty(a => a.Tittle, name).SetProperty(a => a.Content, description).SetProperty(a => a.Color, color));
 
 
             return new(Responses.Success);

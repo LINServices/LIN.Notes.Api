@@ -20,13 +20,15 @@ public class NoteController : ControllerBase
         var tokenInfo = HttpContext.Items[token] as JwtInformation ?? new();
 
         // Comprobaciones
-        if (!modelo.Tittle.Any() || !modelo.Content.Any())
+        if (modelo == null)
             return new(Responses.InvalidParam);
 
 
+        modelo.Tittle ??= "";
+        modelo.Content ??= "";
 
 
-       var exist = modelo.UsersAccess.FirstOrDefault(t => t.ProfileID == tokenInfo.ProfileId);
+        var exist = modelo.UsersAccess.FirstOrDefault(t => t.ProfileID == tokenInfo.ProfileId);
 
         if (exist == null)
         {
@@ -147,7 +149,7 @@ public class NoteController : ControllerBase
     /// <param name="token">Token de acceso.</param>
     [HttpPatch]
     [LocalToken]
-    public async Task<HttpResponseBase> Update([FromQuery] int id, [FromQuery] string name, [FromQuery] string description, [FromHeader] string token)
+    public async Task<HttpResponseBase> Update([FromQuery] int id, [FromQuery] string name, [FromQuery] string description, [FromQuery] int color, [FromHeader] string token)
     {
 
         // Información del token.
@@ -170,7 +172,7 @@ public class NoteController : ControllerBase
             };
 
         // Actualizar el rol.
-        var response = await Data.Notes.Update(id, name, description);
+        var response = await Data.Notes.Update(id, name, description, color);
 
         // Retorna
         return response;

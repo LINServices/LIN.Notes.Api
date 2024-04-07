@@ -1,7 +1,4 @@
-﻿using LIN.Notes.Services;
-using LIN.Notes.Services.Model;
-
-namespace LIN.Notes.Hubs;
+﻿namespace LIN.Notes.Hubs;
 
 
 public class NotesHub : Hub

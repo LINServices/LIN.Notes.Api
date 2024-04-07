@@ -65,13 +65,13 @@ public partial class Notes
     /// <param name="id">Id de la nota.</param>
     /// <param name="name">Nuevo nombre.</param>
     /// <param name="description">Nueva descripción.</param>
-    public async static Task<ResponseBase> Update(int id, string name, string description)
+    public async static Task<ResponseBase> Update(int id, string name, string description, int color)
     {
 
         // Conexión
         (Conexión context, string connectionKey) = Conexión.GetOneConnection();
 
-        var response = await Update(id, name, description, context);
+        var response = await Update(id, name, description, color, context);
         context.CloseActions(connectionKey);
         return response;
     }
