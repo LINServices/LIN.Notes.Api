@@ -1,6 +1,4 @@
-﻿using LIN.Notes;
-
-namespace LIN.Notes.Data;
+﻿namespace LIN.Notes.Data;
 
 
 public partial class NoteAccess
@@ -8,7 +6,7 @@ public partial class NoteAccess
 
 
     /// <summary>
-    /// Crear acceso a inventario.
+    /// Crear acceso a nota.
     /// </summary>
     /// <param name="model">Modelo.</param>
     public async static Task<CreateResponse> Create(NoteAccessDataModel model)
@@ -76,13 +74,10 @@ public partial class NoteAccess
 
 
 
-
-
-
     /// <summary>
     /// Obtener los integrantes.
     /// </summary>
-    /// <param name="inventario">Id del inventario.</param>
+    /// <param name="inventario">Id de la nota.</param>
     public async static Task<ReadAllResponse<Tuple<NoteAccessDataModel, ProfileModel>>> ReadMembers(int inventario)
     {
 
@@ -98,9 +93,9 @@ public partial class NoteAccess
 
 
     /// <summary>
-    /// Eliminar a alguien de un inventario.
+    /// Eliminar a alguien de una nota.
     /// </summary>
-    /// <param name="inventario">Id del inventario</param>
+    /// <param name="inventario">Id del nota</param>
     /// <param name="profile">Id del perfil.</param>
     public async static Task<ResponseBase> DeleteSomeOne(int inventario, int profile)
     {

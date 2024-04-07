@@ -17,7 +17,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext) : Controlle
 
 
     /// <summary>
-    /// Crear acceso a inventario.
+    /// Crear acceso a nota.
     /// </summary>
     /// <param name="model">Modelo.</param>
     /// <param name="token">Token de acceso.</param>
@@ -130,9 +130,9 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext) : Controlle
 
 
     /// <summary>
-    /// Cambia el acceso al inventario por medio de su Id
+    /// Cambia el acceso a nota por medio de su Id
     /// </summary>
-    /// <param name="id">Id del estado de inventario</param>
+    /// <param name="id">Id del estado de nota</param>
     /// <param name="estado">Nuevo estado del acceso</param>
     [HttpPut("update/state")]
     [LocalToken]
@@ -165,9 +165,9 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext) : Controlle
 
 
     /// <summary>
-    /// Obtiene la lista de integrantes asociados a un inventario
+    /// Obtiene la lista de integrantes asociados a una nota.
     /// </summary>
-    /// <param name="inventario">Id del inventario</param>
+    /// <param name="inventario">Id de la nota.</param>
     /// <param name="token">Token de acceso.</param>
     [HttpGet("members")]
     [LocalToken]
@@ -199,7 +199,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext) : Controlle
             };
 
 
-        // Obtiene la lista de Id's de inventarios
+        // Obtiene la lista.
         var result = await Data.NoteAccess.ReadMembers(inventario);
 
 
@@ -231,9 +231,9 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext) : Controlle
 
 
     /// <summary>
-    /// Elimina a alguien de un inventario
+    /// Elimina a alguien de una nota.
     /// </summary>
-    /// <param name="inventario">Id del inventario</param>
+    /// <param name="inventario">Id de la nota</param>
     /// <param name="usuario">Id del usuario que va a ser eliminado</param>
     /// <param name="token">Token de acceso.</param>
     [HttpDelete("delete/one")]

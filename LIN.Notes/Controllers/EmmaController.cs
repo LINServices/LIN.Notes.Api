@@ -9,7 +9,7 @@ public class EmmaController : ControllerBase
 
 
     /// <summary>
-    /// Consulta para LIN Allo Emma.
+    /// Consulta para LIN Notes Emma.
     /// </summary>
     /// <param name="token">Token de acceso.</param>
     /// <param name="consult">Consulta.</param>

@@ -7,9 +7,9 @@ public class NoteController : ControllerBase
 
 
     /// <summary>
-    /// Crea un nuevo Inventario.
+    /// Crea un nueva nota.
     /// </summary>
-    /// <param name="modelo">Modelo del inventario.</param>
+    /// <param name="modelo">Modelo..</param>
     /// <param name="token">Token de acceso.</param>
     [HttpPost("create")]
     [LocalToken]
@@ -72,9 +72,9 @@ public class NoteController : ControllerBase
 
 
     /// <summary>
-    /// Obtiene los inventarios asociados a un perfil
+    /// Obtiene las notas asociadas.
     /// </summary>
-    /// <param name="id">Id de la cuenta</param>
+    /// <param name="token">Token de acceso.</param>
     [HttpGet("read/all")]
     [LocalToken]
     public async Task<HttpReadAllResponse<NoteDataModel>> ReadAll([FromHeader] string token)
@@ -83,7 +83,7 @@ public class NoteController : ControllerBase
         // Información del token.
         var tokenInfo = HttpContext.Items[token] as JwtInformation ?? new();
 
-        // Obtiene la lista de Id's de inventarios
+        // Obtiene la lista de notas.
         var result = await Data.Notes.ReadAll(tokenInfo.ProfileId);
 
         return result;
@@ -94,9 +94,9 @@ public class NoteController : ControllerBase
 
 
     /// <summary>
-    /// Obtener un inventario.
+    /// Obtener una nota.
     /// </summary>
-    /// <param name="id">Id del inventario.</param>
+    /// <param name="id">Id de la nota.</param>
     /// <param name="token">Token de acceso.</param>
     [HttpGet("read")]
     [LocalToken]
@@ -123,10 +123,10 @@ public class NoteController : ControllerBase
             };
 
 
-        // Crea el inventario
+        // Crea la nota.
         var response = await Data.Notes.Read(id);
 
-        // Si no se creo el inventario
+        // Si no se creo la nota.
         if (response.Response != Responses.Success)
             return response;
 
@@ -139,9 +139,9 @@ public class NoteController : ControllerBase
 
 
     /// <summary>
-    /// Actualizar la información de un inventario.
+    /// Actualizar una nota.
     /// </summary>
-    /// <param name="id">Id del inventario.</param>
+    /// <param name="id">Id de la nota.</param>
     /// <param name="name">Nuevo nombre.</param>
     /// <param name="description">Nueva descripción.</param>
     /// <param name="token">Token de acceso.</param>

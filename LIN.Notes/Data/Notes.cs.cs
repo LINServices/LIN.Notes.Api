@@ -9,9 +9,9 @@ public partial class Notes
 
 
     /// <summary>
-    /// Crea un nuevo inventario.
+    /// Crea un nueva nota.
     /// </summary>
-    /// <param name="data">Modelo del inventario</param>
+    /// <param name="data">Modelo de la nota</param>
     /// <param name="context">Contexto de conexión</param>
     public async static Task<CreateResponse> Create(NoteDataModel data, Conexión context)
     {
@@ -50,7 +50,6 @@ public partial class Notes
             {
                 transaction.Rollback();
                 context.DataBase.Remove(data);
-                ServerLogger.LogError(ex.Message);
             }
         }
 
@@ -61,7 +60,7 @@ public partial class Notes
 
 
     /// <summary>
-    /// Obtiene un inventario.
+    /// Obtiene una nota.
     /// </summary>
     /// <param name="id">Id del inventario</param>
     /// <param name="context">Contexto de conexión</param>
@@ -81,7 +80,6 @@ public partial class Notes
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();
@@ -123,7 +121,6 @@ public partial class Notes
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();
@@ -159,7 +156,6 @@ public partial class Notes
         }
         catch (Exception ex)
         {
-            ServerLogger.LogError(ex.Message);
         }
 
         return new();

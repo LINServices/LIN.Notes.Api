@@ -1,6 +1,4 @@
-﻿using LIN.Notes;
-
-namespace LIN.Notes.Data;
+﻿namespace LIN.Notes.Data;
 
 
 public partial class Notes
@@ -8,7 +6,7 @@ public partial class Notes
 
 
     /// <summary>
-    /// Crear nuevo inventario.
+    /// Crear nueva nota.
     /// </summary>
     /// <param name="data">Modelo.</param>
     public async static Task<CreateResponse> Create(NoteDataModel data)
@@ -25,9 +23,9 @@ public partial class Notes
 
 
     /// <summary>
-    /// Obtiene un inventario.
+    /// Obtiene una nota.
     /// </summary>
-    /// <param name="id">Id del inventario</param>
+    /// <param name="id">Id de la nota</param>
     public async static Task<ReadOneResponse<NoteDataModel>> Read(int id)
     {
 
@@ -44,7 +42,7 @@ public partial class Notes
 
 
     /// <summary>
-    /// Obtiene la lista de inventarios asociados a un perfil.
+    /// Obtiene la lista de notas asociados a un perfil.
     /// </summary>
     /// <param name="id">Id del perfil.</param>
     public async static Task<ReadAllResponse<NoteDataModel>> ReadAll(int id)
@@ -62,9 +60,9 @@ public partial class Notes
 
 
     /// <summary>
-    /// Actualizar la información de un inventario.
+    /// Actualizar la información de una nota.
     /// </summary>
-    /// <param name="id">Id del inventario.</param>
+    /// <param name="id">Id de la nota.</param>
     /// <param name="name">Nuevo nombre.</param>
     /// <param name="description">Nueva descripción.</param>
     public async static Task<ResponseBase> Update(int id, string name, string description)
@@ -77,7 +75,6 @@ public partial class Notes
         context.CloseActions(connectionKey);
         return response;
     }
-
 
 
 
