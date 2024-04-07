@@ -1,7 +1,4 @@
-﻿using LIN.Notes;
-using LIN.Notes.Services.Model;
-
-namespace LIN.Notes.Services;
+﻿namespace LIN.Notes.Services;
 
 
 internal class Iam
@@ -32,19 +29,12 @@ internal class Iam
 
 
 
-
-
-
-
-
-
-
     /// <summary>
     /// Validar acceso.
     /// </summary>
-    /// <param name="inventory">Id del inventario.</param>
+    /// <param name="id">Id del inventario.</param>
     /// <param name="profile">Id del perfil.</param>
-    private static async Task<bool> OnNote(int inventory, int profile)
+    private static async Task<bool> OnNote(int id, int profile)
     {
 
         // Db.
@@ -52,7 +42,7 @@ internal class Iam
 
         // Query.
         var access = await (from P in context.DataBase.AccessNotes
-                            where P.NoteId == inventory && P.ProfileID == profile
+                            where P.NoteId == id && P.ProfileID == profile
                             where P.State == NoteAccessState.Accepted
                             select new { P.ProfileID }).FirstOrDefaultAsync();
 
@@ -62,9 +52,6 @@ internal class Iam
 
         return true;
     }
-
-
-
 
 
 

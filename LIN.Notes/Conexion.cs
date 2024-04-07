@@ -97,8 +97,6 @@ public sealed class Conexión
     public Context DataBase { get; private set; }
 
 
-    private ConnectionLogger ConnectionLogger { get; set; }
-
 
     /// <summary>
     /// Nueva Conexión
@@ -113,13 +111,6 @@ public sealed class Conexión
 
         _counter++;
         ConnectionNumber = _counter;
-
-        ConnectionLogger = new ConnectionLogger()
-        {
-            Number = ConnectionNumber,
-        };
-
-        ServerLogger.LogConnection(ConnectionLogger);
 
         if (CacheConnections.Count <= _cantidad)
             CacheConnections.Add(this);
@@ -245,7 +236,6 @@ public sealed class Conexión
     /// </summary>
     public static Conexión GetForcedConnection(string? message = null)
     {
-        ServerLogger.LogError($"Conexión forzosa creada: {message}");
         return new();
     }
 
