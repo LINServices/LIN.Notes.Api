@@ -139,6 +139,45 @@ public class NoteController : ControllerBase
 
 
 
+    /// <summary>
+    /// Eliminar una nota.
+    /// </summary>
+    /// <param name="id">Id de la nota.</param>
+    /// <param name="token">Token de acceso.</param>
+    [HttpDelete]
+    [LocalToken]
+    public async Task<HttpResponseBase> Delete([FromQuery] int id, [FromHeader] string token)
+    {
+
+        // Información del token.
+        var tokenInfo = HttpContext.Items[token] as JwtInformation ?? new();
+
+        // Acceso Iam.
+        var iam = await Iam.Validate(new IamRequest()
+        {
+            IamBy = IamBy.Note,
+            Id = id,
+            Profile = tokenInfo.ProfileId
+        });
+
+        // Validar Iam.
+        if (!iam)
+            return new()
+            {
+                Response = Responses.Unauthorized,
+                Message = "No tienes autorización."
+            };
+
+
+        // Crea la nota.
+        var response = await Data.Notes.Delete(id);
+
+        // Retorna
+        return response;
+
+    }
+
+
 
     /// <summary>
     /// Actualizar una nota.
@@ -173,6 +212,47 @@ public class NoteController : ControllerBase
 
         // Actualizar el rol.
         var response = await Data.Notes.Update(id, name, description, color);
+
+        // Retorna
+        return response;
+
+    }
+
+
+
+    /// <summary>
+    /// Actualizar una nota.
+    /// </summary>
+    /// <param name="id">Id de la nota.</param>
+    /// <param name="name">Nuevo nombre.</param>
+    /// <param name="description">Nueva descripción.</param>
+    /// <param name="token">Token de acceso.</param>
+    [HttpPatch("update/color")]
+    [LocalToken]
+    public async Task<HttpResponseBase> Update([FromQuery] int id, [FromQuery] int color, [FromHeader] string token)
+    {
+
+        // Información del token.
+        var tokenInfo = HttpContext.Items[token] as JwtInformation ?? new();
+
+        // Acceso Iam.
+        var iam = await Iam.Validate(new IamRequest()
+        {
+            IamBy = IamBy.Note,
+            Id = id,
+            Profile = tokenInfo.ProfileId
+        });
+
+        // Validar Iam.
+        if (!iam)
+            return new()
+            {
+                Response = Responses.Unauthorized,
+                Message = "No tienes autorización."
+            };
+
+        // Actualizar el rol.
+        var response = await Data.Notes.UpdateColor(id, color);
 
         // Retorna
         return response;

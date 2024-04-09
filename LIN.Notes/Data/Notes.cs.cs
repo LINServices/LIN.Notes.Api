@@ -86,6 +86,33 @@ public partial class Notes
     }
 
 
+    /// <summary>
+    /// Eliminar una nota.
+    /// </summary>
+    /// <param name="id">Id del inventario</param>
+    /// <param name="context">Contexto de conexión</param>
+    public async static Task<ResponseBase> Delete(int id, Conexión context)
+    {
+
+        // Ejecución
+        try
+        {
+            var res = await context.DataBase.AccessNotes.Where(T => T.NoteId == id).ExecuteDeleteAsync();
+
+            // Si no existe el modelo
+            if (res <= 0)
+                return new(Responses.NotRows);
+
+            return new(Responses.Success);
+        }
+        catch (Exception)
+        {
+        }
+
+        return new();
+    }
+
+
 
     /// <summary>
     /// Obtiene la lista de inventarios asociados a un perfil.
@@ -164,8 +191,34 @@ public partial class Notes
     }
 
 
-
   
+
+    public async static Task<ResponseBase> UpdateColor(int id, int color, Conexión context)
+    {
+
+        // Ejecución
+        try
+        {
+
+            var res = await (from I in context.DataBase.Notes
+                             where I.Id == id
+                             select I).ExecuteUpdateAsync(t => t.SetProperty(a => a.Color, color));
+
+
+            return new(Responses.Success);
+
+        }
+        catch (Exception ex)
+        {
+        }
+
+        return new();
+
+    }
+
+
+
+
 
 
 

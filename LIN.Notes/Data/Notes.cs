@@ -42,6 +42,25 @@ public partial class Notes
 
 
     /// <summary>
+    /// Obtiene una nota.
+    /// </summary>
+    /// <param name="id">Id de la nota</param>
+    public async static Task<ResponseBase> Delete(int id)
+    {
+
+        // Obtiene la conexión
+        (Conexión context, string connectionKey) = Conexión.GetOneConnection();
+
+        var response = await Delete(id, context);
+        context.CloseActions(connectionKey);
+
+        return response;
+
+    }
+
+
+
+    /// <summary>
     /// Obtiene la lista de notas asociados a un perfil.
     /// </summary>
     /// <param name="id">Id del perfil.</param>
@@ -72,6 +91,19 @@ public partial class Notes
         (Conexión context, string connectionKey) = Conexión.GetOneConnection();
 
         var response = await Update(id, name, description, color, context);
+        context.CloseActions(connectionKey);
+        return response;
+    }
+
+
+
+    public async static Task<ResponseBase> UpdateColor(int id, int color)
+    {
+
+        // Conexión
+        (Conexión context, string connectionKey) = Conexión.GetOneConnection();
+
+        var response = await UpdateColor(id, color, context);
         context.CloseActions(connectionKey);
         return response;
     }
