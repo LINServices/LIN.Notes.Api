@@ -65,11 +65,11 @@ public class NotesHub : Hub
 
 
     /// <summary>
-    /// Agregar una conexión a un grupo de inventario.
+    /// Agregar una conexión a un grupo de nota.
     /// </summary>
     /// <param name="token">Token de acceso.</param>
-    /// <param name="inventory">Id del inventario.</param>
-    public async Task JoinInventory(string token, int inventory)
+    /// <param name="note">Id de la nota.</param>
+    public async Task JoinNote(string token, int note)
     {
 
         // Información del token.
@@ -83,7 +83,7 @@ public class NotesHub : Hub
         var iam = await Iam.Validate(new IamRequest()
         {
             IamBy = IamBy.Note,
-            Id = inventory,
+            Id = note,
             Profile = tokenInfo.ProfileId
         });
 
@@ -91,7 +91,7 @@ public class NotesHub : Hub
         if (!iam)
             return;
 
-        string groupName = $"inventory.{inventory}";
+        string groupName = $"note.{note}";
 
         await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
@@ -117,8 +117,8 @@ public class NotesHub : Hub
         // Envía el comando.
         string group;
 
-        if (comando.Inventory > 0)
-            group = $"inventory.{comando.Inventory}";
+        if (comando.Note > 0)
+            group = $"note.{comando.Note}";
         else
             group = $"group.{tokenInfo.ProfileId}";
 
@@ -128,68 +128,9 @@ public class NotesHub : Hub
 
 
 
-
     /// <summary>
-    /// Agregar una conexión a un grupo de inventario.
+    /// Enviar comando.
     /// </summary>
-    /// <param name="token">Token de acceso.</param>
-    /// <param name="inventory">Id del inventario.</param>
-    public async Task<string> Notification(string token, int inventory)
-    {
-
-        // Información del token.
-        var tokenInfo = Jwt.Validate(token);
-
-        // Si el token es invalido.
-        if (!tokenInfo.IsAuthenticated)
-            return "No Auth";
-
-        // Acceso Iam.
-        var iam = await Iam.Validate(new IamRequest()
-        {
-            IamBy = IamBy.Note,
-            Id = inventory,
-            Profile = tokenInfo.ProfileId
-        });
-
-        // Si no tiene ese rol.
-        if (!iam)
-            return "No Rol";
-
-
-        var (context, contextKey) = Conexión.GetOneConnection();
-
-
-
-
-        var x = await (from i in context.DataBase.AccessNotes
-                       where i.NoteId == inventory
-                       where i.State == NoteAccessState.OnWait
-                       select new
-                       {
-                           Profile = i.ProfileID,
-                           Id = i.Id,
-                       }).ToListAsync();
-
-
-        foreach (var id in x)
-        {
-            string groupName = $"group.{id.Profile}";
-            string command = $"newInvitation({id.Id})";
-            await Clients.Group(groupName).SendAsync("#command", new CommandModel()
-            {
-                Command = command
-            });
-        }
-
-
-        return "Success";
-
-    }
-
-
-
-
     public async Task SendToDevice(string device, CommandModel command)
     {
 
@@ -197,8 +138,6 @@ public class NotesHub : Hub
         await Clients.Client(device).SendAsync("#command", command);
 
     }
-
-
 
 
 

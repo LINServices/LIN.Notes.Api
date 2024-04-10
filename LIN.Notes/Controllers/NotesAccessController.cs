@@ -1,6 +1,4 @@
-﻿using LIN.Types.Notes.Transient;
-
-namespace LIN.Notes.Controllers;
+﻿namespace LIN.Notes.Controllers;
 
 
 [Route("Notes/access")]

@@ -27,7 +27,7 @@ public class EmmaController : ControllerBase
 
         var request = new Types.Models.EmmaRequest
         {
-            AppContext = "inventory",
+            AppContext = "notes",
             Asks = consult
         };
 
@@ -76,7 +76,7 @@ public class EmmaController : ControllerBase
         {
             return new ReadOneResponse<object>()
             {
-                Model = "Este usuario no autenticado en LIN Inventory."
+                Model = "Este usuario no autenticado en LIN Notes."
             };
         }
 
@@ -88,7 +88,7 @@ public class EmmaController : ControllerBase
         {
             return new ReadOneResponse<object>()
             {
-                Model = "Este usuario no tiene una cuenta en LIN Inventory."
+                Model = "Este usuario no tiene una cuenta en LIN Notes."
             };
         }
 
