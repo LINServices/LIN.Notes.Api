@@ -71,7 +71,7 @@ public partial class Notes
 
             // Si no existe el modelo
             if (res == null)
-                return new(Responses.NotExistAccount);
+                return new(Responses.NotRows);
 
             return new(Responses.Success, res);
         }

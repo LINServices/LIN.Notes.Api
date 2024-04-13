@@ -62,7 +62,7 @@ public partial class Profiles
 
             return new(Responses.Success, res);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 
@@ -91,7 +91,7 @@ public partial class Profiles
 
             return new(Responses.Success, res);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 
@@ -120,7 +120,7 @@ public partial class Profiles
 
             return new(Responses.Success, res);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 

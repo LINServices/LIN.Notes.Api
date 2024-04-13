@@ -1,5 +1,4 @@
-﻿using LIN.Notes.Services.Model;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace LIN.Notes.Services;
@@ -21,7 +20,7 @@ public class Jwt
     /// </summary>
     public static void Open()
     {
-        JwtKey = Configuration.GetConfiguration("jwt:key");
+        JwtKey = Http.Services.Configuration.GetConfiguration("jwt:key");
     }
 
 

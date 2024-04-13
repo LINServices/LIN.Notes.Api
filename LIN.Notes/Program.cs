@@ -1,7 +1,4 @@
-using LIN.Notes;
 using LIN.Notes.Data;
-using LIN.Notes.Hubs;
-using LIN.Notes.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
