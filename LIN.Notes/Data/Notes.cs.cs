@@ -1,7 +1,4 @@
-﻿using LIN.Notes;
-using LIN.Notes.Services;
-
-namespace LIN.Notes.Data;
+﻿namespace LIN.Notes.Data;
 
 
 public partial class Notes
@@ -26,7 +23,7 @@ public partial class Notes
             {
 
 
-                foreach(var a in data.UsersAccess)
+                foreach (var a in data.UsersAccess)
                 {
                     a.Profile = new()
                     {
@@ -46,7 +43,7 @@ public partial class Notes
                 transaction.Commit();
                 return new(Responses.Success, data.Id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 transaction.Rollback();
                 context.DataBase.Remove(data);
@@ -62,7 +59,7 @@ public partial class Notes
     /// <summary>
     /// Obtiene una nota.
     /// </summary>
-    /// <param name="id">Id del inventario</param>
+    /// <param name="id">Id de la nota</param>
     /// <param name="context">Contexto de conexión</param>
     public async static Task<ReadOneResponse<NoteDataModel>> Read(int id, Conexión context)
     {
@@ -78,7 +75,7 @@ public partial class Notes
 
             return new(Responses.Success, res);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 
@@ -89,7 +86,7 @@ public partial class Notes
     /// <summary>
     /// Eliminar una nota.
     /// </summary>
-    /// <param name="id">Id del inventario</param>
+    /// <param name="id">Id de la nota.</param>
     /// <param name="context">Contexto de conexión</param>
     public async static Task<ResponseBase> Delete(int id, Conexión context)
     {
@@ -115,7 +112,7 @@ public partial class Notes
 
 
     /// <summary>
-    /// Obtiene la lista de inventarios asociados a un perfil.
+    /// Obtiene la lista de notas asociados a un perfil.
     /// </summary>
     /// <param name="id">Id del perfil.</param>
     /// <param name="context">Contexto de conexión</param>
@@ -147,7 +144,7 @@ public partial class Notes
 
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 
@@ -161,11 +158,9 @@ public partial class Notes
 
 
     /// <summary>
-    /// Actualizar la información de un inventario.
+    /// Actualizar la información de una nota.
     /// </summary>
-    /// <param name="id">Id del inventario.</param>
-    /// <param name="name">Nuevo nombre.</param>
-    /// <param name="description">Nueva descripción.</param>
+    /// <param name="note">Nueva información.</param>
     /// <param name="context">Contexto de conexión..</param>
     public async static Task<ResponseBase> Update(NoteDataModel note, Conexión context)
     {
@@ -182,7 +177,7 @@ public partial class Notes
             return new(Responses.Success);
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 
@@ -191,8 +186,14 @@ public partial class Notes
     }
 
 
-  
 
+
+    /// <summary>
+    /// Actualizar el color.
+    /// </summary>
+    /// <param name="id">Id de la nota.</param>
+    /// <param name="color">Nuevo color.</param>
+    /// <param name="context">Contexto.</param>
     public async static Task<ResponseBase> UpdateColor(int id, int color, Conexión context)
     {
 
@@ -208,17 +209,13 @@ public partial class Notes
             return new(Responses.Success);
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 
         return new();
 
     }
-
-
-
-
 
 
 

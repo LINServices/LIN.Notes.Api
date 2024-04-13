@@ -1,7 +1,4 @@
-﻿using LIN.Notes;
-using LIN.Notes.Services;
-
-namespace LIN.Notes.Data;
+﻿namespace LIN.Notes.Data;
 
 
 public partial class NoteAccess

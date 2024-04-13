@@ -1,7 +1,5 @@
-﻿using LIN.Notes;
-using LIN.Notes.Services;
+﻿namespace LIN.Notes.Data;
 
-namespace LIN.Notes.Data;
 
 public partial class Profiles
 {
@@ -22,7 +20,7 @@ public partial class Profiles
         {
             try
             {
-                context.DataBase.Profiles.Add(data.Profile);
+                await context.DataBase.Profiles.AddAsync(data.Profile);
                 context.DataBase.SaveChanges();
 
               
@@ -151,7 +149,7 @@ public partial class Profiles
 
             return new(Responses.Success, res);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 

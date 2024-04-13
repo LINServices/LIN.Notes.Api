@@ -81,9 +81,7 @@ public partial class Notes
     /// <summary>
     /// Actualizar la información de una nota.
     /// </summary>
-    /// <param name="id">Id de la nota.</param>
-    /// <param name="name">Nuevo nombre.</param>
-    /// <param name="description">Nueva descripción.</param>
+    /// <param name="note">Modelo de la nota.</param>
     public async static Task<ResponseBase> Update(NoteDataModel note)
     {
 
