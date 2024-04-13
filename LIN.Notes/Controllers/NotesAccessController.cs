@@ -85,7 +85,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext) : Controlle
     /// </summary>
     /// <param name="id">Id de la notificación.</param>
     /// <param name="token">Token de acceso.</param>
-    [HttpGet("read")]
+    [HttpGet]
     [LocalToken]
     public async Task<HttpReadOneResponse<Notificacion>> Read([FromHeader] int id, [FromHeader] string token)
     {
@@ -234,7 +234,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext) : Controlle
     /// <param name="inventario">Id de la nota</param>
     /// <param name="usuario">Id del usuario que va a ser eliminado</param>
     /// <param name="token">Token de acceso.</param>
-    [HttpDelete("delete/one")]
+    [HttpDelete]
     [LocalToken]
     public async Task<HttpResponseBase> DeleteSomeOne([FromHeader] int inventario, [FromHeader] int usuario, [FromHeader] string token)
     {

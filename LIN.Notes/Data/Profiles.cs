@@ -1,6 +1,4 @@
-﻿using LIN.Notes;
-
-namespace LIN.Notes.Data;
+﻿namespace LIN.Notes.Data;
 
 
 public partial class Profiles

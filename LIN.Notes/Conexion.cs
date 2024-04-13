@@ -1,5 +1,4 @@
 ﻿using LIN.Notes.Data;
-using LIN.Notes.Services;
 
 namespace LIN.Notes;
 

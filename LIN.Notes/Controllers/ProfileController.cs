@@ -10,7 +10,7 @@ public class ProfileController : ControllerBase
     /// Obtiene un usuario por medio del Id
     /// </summary>
     /// <param name="id">Id del usuario</param>
-    [HttpGet("read/id")]
+    [HttpGet]
     public async Task<HttpReadOneResponse<ProfileModel>> ReadOneByID([FromQuery] int id)
     {
 

@@ -1,6 +1,4 @@
-﻿using LIN.Notes.Services;
-
-namespace LIN.Notes.Controllers;
+﻿namespace LIN.Notes.Controllers;
 
 
 [Route("auth")]
@@ -195,6 +193,7 @@ public class AuthController : ControllerBase
         };
 
     }
+
 
 
 }
