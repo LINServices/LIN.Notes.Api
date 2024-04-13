@@ -167,7 +167,7 @@ public partial class Notes
     /// <param name="name">Nuevo nombre.</param>
     /// <param name="description">Nueva descripción.</param>
     /// <param name="context">Contexto de conexión..</param>
-    public async static Task<ResponseBase> Update(int id, string name, string description,int color, Conexión context)
+    public async static Task<ResponseBase> Update(NoteDataModel note, Conexión context)
     {
 
         // Ejecución
@@ -175,8 +175,8 @@ public partial class Notes
         {
 
             var res = await (from I in context.DataBase.Notes
-                             where I.Id == id
-                             select I).ExecuteUpdateAsync(t => t.SetProperty(a => a.Tittle, name).SetProperty(a => a.Content, description).SetProperty(a => a.Color, color));
+                             where I.Id == note.Id
+                             select I).ExecuteUpdateAsync(t => t.SetProperty(a => a.Tittle, note.Tittle).SetProperty(a => a.Content, note.Content).SetProperty(a => a.Color, note.Color));
 
 
             return new(Responses.Success);

@@ -188,7 +188,7 @@ public class NoteController : ControllerBase
     /// <param name="token">Token de acceso.</param>
     [HttpPatch]
     [LocalToken]
-    public async Task<HttpResponseBase> Update([FromQuery] int id, [FromQuery] string name, [FromQuery] string description, [FromQuery] int color, [FromHeader] string token)
+    public async Task<HttpResponseBase> Update([FromBody] NoteDataModel note, [FromHeader] string token)
     {
 
         // Información del token.
@@ -198,7 +198,7 @@ public class NoteController : ControllerBase
         var iam = await Iam.Validate(new IamRequest()
         {
             IamBy = IamBy.Note,
-            Id = id,
+            Id = note.Id,
             Profile = tokenInfo.ProfileId
         });
 
@@ -211,7 +211,7 @@ public class NoteController : ControllerBase
             };
 
         // Actualizar el rol.
-        var response = await Data.Notes.Update(id, name, description, color);
+        var response = await Data.Notes.Update(note);
 
         // Retorna
         return response;
