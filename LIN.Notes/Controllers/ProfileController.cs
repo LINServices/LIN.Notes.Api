@@ -11,7 +11,7 @@ public class ProfileController : ControllerBase
     /// </summary>
     /// <param name="id">Id del usuario</param>
     [HttpGet]
-    public async Task<HttpReadOneResponse<ProfileModel>> ReadOneByID([FromQuery] int id)
+    public async Task<HttpReadOneResponse<ProfileModel>> Read([FromQuery] int id)
     {
 
         if (id <= 0)
@@ -39,9 +39,9 @@ public class ProfileController : ControllerBase
     /// Buscar.
     /// </summary>
     /// <param name="pattern">Patron de búsqueda.</param>
-    /// <param name="token">Token de acceso.</param>
+    /// <param name="token">Token de acceso Identity.</param>
     [HttpGet("search")]
-    public async Task<HttpReadAllResponse<SessionModel<ProfileModel>>> ReadOneByID([FromQuery] string pattern, [FromHeader] string token)
+    public async Task<HttpReadAllResponse<SessionModel<ProfileModel>>> Search([FromQuery] string pattern, [FromHeader] string token)
     {
 
         // Usuarios
