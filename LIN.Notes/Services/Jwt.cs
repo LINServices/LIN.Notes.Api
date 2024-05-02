@@ -33,27 +33,36 @@ public class Jwt
     internal static string Generate(ProfileModel user)
     {
 
-        // Configuración
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey));
-
-        // Credenciales
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
-
-        // Reclamaciones
-        var claims = new[]
+        try
         {
+            // Configuración
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey));
+
+            // Credenciales
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
+
+            // Reclamaciones
+            var claims = new[]
+            {
             new Claim(ClaimTypes.PrimarySid, user.ID.ToString()),
             new Claim(ClaimTypes.UserData, user.AccountID.ToString())
         };
 
-        // Expiración del token
-        var expiración = DateTime.Now.AddHours(5);
+            // Expiración del token
+            var expiración = DateTime.Now.AddHours(5);
 
-        // Token
-        var token = new JwtSecurityToken(null, null, claims, null, expiración, credentials);
+            // Token
+            var token = new JwtSecurityToken(null, null, claims, null, expiración, credentials);
 
-        // Genera el token
-        return new JwtSecurityTokenHandler().WriteToken(token);
+            // Genera el token
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+        catch (Exception ex)
+        {
+            _ = LIN.Access.Logger.Logger.Log(ex, 3);
+        }
+
+        return string.Empty;
     }
 
 

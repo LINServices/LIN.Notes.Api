@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 try
 {
+    LIN.Access.Logger.Logger.AppName = "LIN.NOTES";
 
     builder.Services.AddSignalR();
 
@@ -63,8 +64,10 @@ try
         var dataContext = scope.ServiceProvider.GetRequiredService<Context>();
         var res = dataContext.Database.EnsureCreated();
     }
-    catch
-    { }
+    catch (Exception ex)
+    {
+        _ = LIN.Access.Logger.Logger.Log(ex, 3);
+    }
 
 
 
@@ -108,4 +111,5 @@ try
 }
 catch (Exception ex)
 {
+    _ = LIN.Access.Logger.Logger.Log(ex, 4);
 }
