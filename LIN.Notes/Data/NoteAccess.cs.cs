@@ -43,7 +43,7 @@ public partial class NoteAccess
 
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 
@@ -57,7 +57,7 @@ public partial class NoteAccess
     /// </summary>
     /// <param name="id">Id del perfil.</param>
     /// <param name="context">Contexto de base de datos.</param>
-    public async static Task<ReadAllResponse<Notificacion>> ReadAll(int id, Conexión context)
+    public async static Task<ReadAllResponse<Notification>> ReadAll(int id, Conexión context)
     {
 
         // Ejecución
@@ -68,13 +68,13 @@ public partial class NoteAccess
             var res = from AI in context.DataBase.AccessNotes
                       where AI.ProfileID == id && AI.State == NoteAccessState.OnWait
                       join I in context.DataBase.Notes on AI.NoteId equals I.Id
-                      select new Notificacion()
+                      select new Notification()
                       {
                           ID = AI.Id,
                           Fecha = AI.Fecha,
-                          Inventario = I.Tittle,
+                          NoteName = I.Tittle,
                           //UsuarioInvitador = U.Id,
-                          InventarioID = I.Id
+                          NoteId = I.Id
                       };
 
 
@@ -86,7 +86,7 @@ public partial class NoteAccess
 
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 
@@ -100,7 +100,7 @@ public partial class NoteAccess
     /// </summary>
     /// <param name="id">Id de la invitación.</param>
     /// <param name="context">Contexto de conexión</param>
-    public async static Task<ReadOneResponse<Notificacion>> Read(int id, Conexión context)
+    public async static Task<ReadOneResponse<Notification>> Read(int id, Conexión context)
     {
 
         // Ejecución
@@ -111,13 +111,13 @@ public partial class NoteAccess
             var res = from AI in context.DataBase.AccessNotes
                       where AI.Id == id && AI.State == NoteAccessState.OnWait
                       join I in context.DataBase.Notes on AI.NoteId equals I.Id
-                      select new Notificacion()
+                      select new Notification()
                       {
                           ID = AI.Id,
                           Fecha = AI.Fecha,
-                          Inventario = I.Tittle,
+                          NoteName = I.Tittle,
                           //UsuarioInvitador = U.Id,
-                          InventarioID = I.Id
+                          NoteId = I.Id
                       };
 
 
@@ -129,7 +129,7 @@ public partial class NoteAccess
 
 
         }
-        catch (Exception ex)
+        catch (Exception )
         {
         }
 
@@ -162,7 +162,7 @@ public partial class NoteAccess
             return new(Responses.NotRows);
 
         }
-        catch (Exception ex)
+        catch (Exception )
         {
         }
 
@@ -201,7 +201,7 @@ public partial class NoteAccess
 
 
         }
-        catch (Exception ex)
+        catch (Exception )
         {
         }
 
@@ -232,7 +232,7 @@ public partial class NoteAccess
             return new(Responses.Success);
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
 

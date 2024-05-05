@@ -40,6 +40,7 @@ public class Context(DbContextOptions<Context> options) : DbContext(options)
            .IsUnique();
 
 
+        
         modelBuilder.Entity<NoteAccessDataModel>()
                           .HasOne(t => t.Note)
                           .WithMany(t => t.UsersAccess)

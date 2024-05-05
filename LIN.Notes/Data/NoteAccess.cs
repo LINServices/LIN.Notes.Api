@@ -26,7 +26,7 @@ public partial class NoteAccess
     /// Obtener una invitación.
     /// </summary>
     /// <param name="id">Id de la invitación.</param>
-    public async static Task<ReadOneResponse<Notificacion>> Read(int id)
+    public async static Task<ReadOneResponse<Notification>> Read(int id)
     {
 
         // Obtiene la conexión
@@ -43,7 +43,7 @@ public partial class NoteAccess
     /// Obtiene la lista de invitaciones a un perfil.
     /// </summary>
     /// <param name="id">Id del perfil.</param>
-    public async static Task<ReadAllResponse<Notificacion>> ReadAll(int id)
+    public async static Task<ReadAllResponse<Notification>> ReadAll(int id)
     {
 
         // Obtiene la conexión

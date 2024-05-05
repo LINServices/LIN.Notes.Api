@@ -87,7 +87,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext) : Controlle
     /// <param name="token">Token de acceso.</param>
     [HttpGet]
     [LocalToken]
-    public async Task<HttpReadOneResponse<Notificacion>> Read([FromHeader] int id, [FromHeader] string token)
+    public async Task<HttpReadOneResponse<Notification>> Read([FromHeader] int id, [FromHeader] string token)
     {
 
         // Información del token.
@@ -111,7 +111,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext) : Controlle
     /// <param name="id">Id de la cuenta</param>
     [HttpGet("read/all")]
     [LocalToken]
-    public async Task<HttpReadAllResponse<Notificacion>> ReadAll([FromHeader] string token)
+    public async Task<HttpReadAllResponse<Notification>> ReadAll([FromHeader] string token)
     {
 
         // Información del token.
