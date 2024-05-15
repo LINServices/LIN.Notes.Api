@@ -1,6 +1,6 @@
 ﻿namespace LIN.Notes.Services.Model;
 
-internal class IamRequest
+public class IamRequest
 {
 
     public int Id { get; set; }
@@ -11,7 +11,7 @@ internal class IamRequest
 
 }
 
-internal enum IamBy
+public enum IamBy
 {
     Note,
     Access

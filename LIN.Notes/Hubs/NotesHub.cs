@@ -1,7 +1,9 @@
-﻿namespace LIN.Notes.Hubs;
+﻿using LIN.Notes.Services.Abstractions;
+
+namespace LIN.Notes.Hubs;
 
 
-public class NotesHub : Hub
+public class NotesHub(IIam Iam) : Hub
 {
 
 

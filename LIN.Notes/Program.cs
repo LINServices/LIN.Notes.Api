@@ -1,25 +1,17 @@
+using Http.Extensions;
 using LIN.Notes.Data;
+using LIN.Notes.Services.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 try
 {
+
     LIN.Access.Logger.Logger.AppName = "LIN.NOTES";
 
     builder.Services.AddSignalR();
 
-
-    builder.Services.AddCors(options =>
-    {
-        options.AddPolicy("AllowAnyOrigin",
-            builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyHeader()
-                       .AllowAnyMethod();
-            });
-    });
-
+    builder.Services.AddLINHttp();
 
     // Add services to the container.
     string sqlConnection = string.Empty;
@@ -45,15 +37,11 @@ try
     }
 
 
-
-
     LIN.Access.Auth.Build.SetAuth(builder.Configuration["lin:app"] ?? string.Empty);
 
-    builder.Services.AddControllers();
-
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
     builder.Services.AddHttpContextAccessor();
+
+    builder.Services.AddScoped<IIam, Iam>();
 
     var app = builder.Build();
 
@@ -69,23 +57,7 @@ try
         _ = LIN.Access.Logger.Logger.Log(ex, 3);
     }
 
-
-
-
-
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-    }
-
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseHttpsRedirection();
-    app.UseStaticFiles();
-    app.UseCors("AllowAnyOrigin");
-    app.UseAuthentication();
-    app.UseAuthorization();
-
+    app.UseLINHttp();
 
 
     app.MapControllers();

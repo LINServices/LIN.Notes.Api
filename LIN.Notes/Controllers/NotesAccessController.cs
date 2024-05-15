@@ -1,8 +1,10 @@
-﻿namespace LIN.Notes.Controllers;
+﻿using LIN.Notes.Services.Abstractions;
+
+namespace LIN.Notes.Controllers;
 
 
 [Route("Notes/access")]
-public class NotesAccessController(IHubContext<NotesHub> hubContext) : ControllerBase
+public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam) : ControllerBase
 {
 
 

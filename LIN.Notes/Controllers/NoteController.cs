@@ -1,8 +1,10 @@
+using LIN.Notes.Services.Abstractions;
+
 namespace LIN.Notes.Controllers;
 
 
 [Route("notes")]
-public class NoteController : ControllerBase
+public class NoteController(IIam Iam) : ControllerBase
 {
 
 

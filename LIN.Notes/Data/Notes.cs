@@ -95,6 +95,11 @@ public partial class Notes
 
 
 
+    /// <summary>
+    /// Actualiza el color de una nota.
+    /// </summary>
+    /// <param name="id">Id de la nota.</param>
+    /// <param name="color">nuevo color.</param>
     public async static Task<ResponseBase> UpdateColor(int id, int color)
     {
 
@@ -105,7 +110,6 @@ public partial class Notes
         context.CloseActions(connectionKey);
         return response;
     }
-
 
 
 
