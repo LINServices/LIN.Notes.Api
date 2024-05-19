@@ -18,12 +18,8 @@ public class NotesHub(IIam Iam) : Hub
     /// Agregar una conexión a su grupo de cuenta.
     /// </summary>
     /// <param name="token">Token de acceso.</param>
-    public async Task Join(string token, DeviceModel model)
+    public async Task Join(string token)
     {
-
-        // Validar.
-        if (string.IsNullOrEmpty(model.LocalId))
-            return;
 
         // Información del token.
         var tokenInfo = Jwt.Validate(token);
@@ -31,32 +27,6 @@ public class NotesHub(IIam Iam) : Hub
         // Si el token es invalido.
         if (!tokenInfo.IsAuthenticated)
             return;
-
-
-        var exist = List.ContainsKey(tokenInfo.ProfileId);
-
-        if (!exist)
-        {
-            List.Add(tokenInfo.ProfileId, [new DeviceModel()
-            {
-                Id = Context.ConnectionId,
-                Name = model.Name,
-                Platform = model.Platform,
-               LocalId=model.LocalId,
-            }]);
-        }
-        else
-        {
-            var any = List[tokenInfo.ProfileId].Any(t => t.LocalId == model.LocalId);
-
-            if (any)
-                return;
-
-
-            List[tokenInfo.ProfileId].Add(model);
-        }
-
-        model.Id = Context.ConnectionId;
 
         // Agregar el grupo.
         string groupName = $"group.{tokenInfo.ProfileId}";

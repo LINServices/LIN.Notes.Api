@@ -17,8 +17,6 @@ public class EmmaController : ControllerBase
     public async Task<HttpReadOneResponse<ResponseIAModel>> Assistant([FromHeader] string tokenAuth, [FromBody] string consult)
     {
 
-
-
         HttpClient client = new();
 
         client.DefaultRequestHeaders.Add("token", tokenAuth);
@@ -122,13 +120,13 @@ public class EmmaController : ControllerBase
             
             {
               "name": "#select",
-              "description": "Abrir un inventario, cuando el usuario se refiera a abrir un inventario",
+              "description": "Abrir una nota, cuando el usuario se refiera a abrir una nota",
               "example":"#select(0)",
               "parameters": {
                 "properties": {
                   "content": {
                     "type": "number",
-                    "description": "Id del inventario"
+                    "description": "Id de la nota"
                   }
                 }
               }

@@ -4,7 +4,7 @@ namespace LIN.Notes.Controllers;
 
 
 [Route("notes")]
-public class NoteController(IIam Iam) : ControllerBase
+public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : ControllerBase
 {
 
 
@@ -212,6 +212,21 @@ public class NoteController(IIam Iam) : ControllerBase
         // Actualizar el rol.
         var response = await Data.Notes.UpdateColor(id, color);
 
+
+        // Realtime.
+        if (response.Response == Responses.Success)
+        {
+
+            // Realtime.
+            string groupName = $"group.{tokenInfo.ProfileId}";
+            string command = $"updateColor({id}, {color})";
+            await hubContext.Clients.Group(groupName).SendAsync("#command", new CommandModel()
+            {
+                Command = command
+            });
+
+        }
+
         // Retorna
         return response;
 
@@ -251,6 +266,20 @@ public class NoteController(IIam Iam) : ControllerBase
 
         // Crea la nota.
         var response = await Data.Notes.Delete(id);
+
+        // Realtime.
+        if (response.Response == Responses.Success)
+        {
+
+            // Realtime.
+            string groupName = $"group.{tokenInfo.ProfileId}";
+            string command = $"remove({id})";
+            await hubContext.Clients.Group(groupName).SendAsync("#command", new CommandModel()
+            {
+                Command = command
+            });
+
+        }
 
         // Retorna
         return response;
