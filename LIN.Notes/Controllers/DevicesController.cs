@@ -1,7 +1,7 @@
 namespace LIN.Notes.Controllers;
 
 
-[Route("devices")]
+[Route("[controller]")]
 public class DevicesController : ControllerBase
 {
 

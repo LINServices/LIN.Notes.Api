@@ -1,7 +1,7 @@
 ﻿namespace LIN.Notes.Controllers;
 
 
-[Route("auth")]
+[Route("[controller]")]
 public class AuthController : ControllerBase
 {
 
