@@ -52,6 +52,9 @@ LIN.Access.Auth.Build.SetAuth(builder.Configuration["lin:app"] ?? string.Empty);
 
 var app = builder.Build();
 
+// Agregar logging.
+app.UseServiceLogging();
+
 try
 {
     // Si la base de datos no existe

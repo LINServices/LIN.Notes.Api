@@ -59,7 +59,7 @@ public class Jwt
         }
         catch (Exception ex)
         {
-            _ = LIN.Access.Logger.Logger.Log(ex, 3);
+            Access.Logger.Services.Logger.Current.Log(ex, Access.Logger.Models.LogLevels.Critical);
         }
 
         return string.Empty;
