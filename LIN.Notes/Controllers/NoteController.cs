@@ -4,6 +4,7 @@ namespace LIN.Notes.Controllers;
 
 
 [Route("notes")]
+[LocalToken]
 public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : ControllerBase
 {
 
@@ -14,7 +15,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
     /// <param name="modelo">Modelo..</param>
     /// <param name="token">Token de acceso.</param>
     [HttpPost]
-    [LocalToken]
     public async Task<HttpCreateResponse> Create([FromBody] NoteDataModel modelo, [FromHeader] string token)
     {
 
@@ -80,7 +80,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
     /// </summary>
     /// <param name="token">Token de acceso.</param>
     [HttpGet("read/all")]
-    [LocalToken]
     public async Task<HttpReadAllResponse<NoteDataModel>> ReadAll([FromHeader] string token)
     {
 
@@ -102,7 +101,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
     /// <param name="id">Id de la nota.</param>
     /// <param name="token">Token de acceso.</param>
     [HttpGet]
-    [LocalToken]
     public async Task<HttpReadOneResponse<NoteDataModel>> Read([FromQuery] int id, [FromHeader] string token)
     {
 
@@ -146,7 +144,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
     /// <param name="note">Nuevo modelo.</param>
     /// <param name="token">Token de acceso.</param>
     [HttpPatch]
-    [LocalToken]
     public async Task<HttpResponseBase> Update([FromBody] NoteDataModel note, [FromHeader] string token)
     {
 
@@ -169,8 +166,10 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
                 Message = "No tienes autorización."
             };
 
-        // Actualizar el rol.
+        // Actualizar el contenido.
         var response = await Data.Notes.Update(note);
+
+        hubContext.Clients.Group($"note.{note.Id}").SendAsync("");
 
         // Retorna
         return response;
@@ -186,7 +185,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
     /// <param name="color">Nuevo color.</param>
     /// <param name="token">Token de acceso.</param>
     [HttpPatch("color")]
-    [LocalToken]
     public async Task<HttpResponseBase> Update([FromQuery] int id, [FromQuery] int color, [FromHeader] string token)
     {
 

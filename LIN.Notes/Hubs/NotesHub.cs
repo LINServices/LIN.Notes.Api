@@ -71,6 +71,30 @@ public class NotesHub(IIam Iam) : Hub
 
 
 
+
+    /// <summary>
+    /// Eliminar de nota.
+    /// </summary>
+    /// <param name="token">Token de acceso.</param>
+    /// <param name="note">Nota.</param>
+    /// <returns></returns>
+    public async Task LeaveNote(string token, int note)
+    {
+
+        // Información del token.
+        var tokenInfo = Jwt.Validate(token);
+
+        // Si el token es invalido.
+        if (!tokenInfo.IsAuthenticated)
+            return;
+
+        string groupName = $"note.{note}";
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+
+    }
+
+
+
     /// <summary>
     /// Enviar un comando a los demás dispositivos.
     /// </summary>
@@ -93,7 +117,7 @@ public class NotesHub(IIam Iam) : Hub
             group = $"note.{comando.Note}";
         else
             group = $"group.{tokenInfo.ProfileId}";
-
+        
         await Clients.Group(group).SendAsync("#command", comando);
 
     }
