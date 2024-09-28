@@ -2,6 +2,7 @@ using Http.Extensions;
 using LIN.Access.Logger;
 using LIN.Notes.Data;
 using LIN.Notes.Services.Abstractions;
+using LIN.Access.Auth;
 
 // Create a builder.
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddSignalR();
 builder.Services.AddLINHttp();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IIam, Iam>();
+builder.Services.AddAuthenticationService();
 
 // Logger.
 builder.Services.AddServiceLogging("LIN.NOTES");
@@ -45,11 +47,6 @@ catch (Exception ex)
     LIN.Access.Logger.Services.Logger.Current.Log(ex, LIN.Access.Logger.Models.LogLevels.Critical);
 }
 
-
-LIN.Access.Auth.Build.SetAuth(builder.Configuration["lin:app"] ?? string.Empty);
-
-
-
 var app = builder.Build();
 
 // Agregar logging.
@@ -82,7 +79,5 @@ _ = Conexión.StartConnections();
 
 // Inicio de Jwt
 Jwt.Open();
-
-LIN.Access.Auth.Build.Init();
 
 app.Run();

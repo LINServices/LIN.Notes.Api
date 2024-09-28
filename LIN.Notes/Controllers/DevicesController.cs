@@ -1,10 +1,8 @@
 namespace LIN.Notes.Controllers;
 
-
 [Route("[controller]")]
 public class DevicesController : ControllerBase
 {
-
 
     /// <summary>
     /// Obtener dispositivos.
@@ -28,6 +26,5 @@ public class DevicesController : ControllerBase
             Models = devices.Value
         };
     }
-
 
 }

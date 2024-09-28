@@ -1,6 +1,5 @@
 ﻿namespace LIN.Notes.Controllers;
 
-
 [Route("[controller]")]
 public class AuthController : ControllerBase
 {
@@ -104,7 +103,6 @@ public class AuthController : ControllerBase
     }
 
 
-
     /// <summary>
     /// Iniciar sesión de usuario por medio del token.
     /// </summary>
@@ -193,7 +191,5 @@ public class AuthController : ControllerBase
         };
 
     }
-
-
 
 }

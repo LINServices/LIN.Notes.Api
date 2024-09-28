@@ -2,12 +2,10 @@ using LIN.Notes.Services.Abstractions;
 
 namespace LIN.Notes.Controllers;
 
-
 [Route("notes")]
 [LocalToken]
 public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : ControllerBase
 {
-
 
     /// <summary>
     /// Crea un nueva nota.
@@ -74,7 +72,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
     }
 
 
-
     /// <summary>
     /// Obtiene las notas asociadas.
     /// </summary>
@@ -92,7 +89,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
         return result;
 
     }
-
 
 
     /// <summary>
@@ -137,7 +133,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
     }
 
 
-
     /// <summary>
     /// Actualizar una nota.
     /// </summary>
@@ -175,7 +170,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
         return response;
 
     }
-
 
 
     /// <summary>
@@ -231,14 +225,12 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
     }
 
 
-
     /// <summary>
     /// Eliminar una nota.
     /// </summary>
     /// <param name="id">Id de la nota.</param>
     /// <param name="token">Token de acceso.</param>
     [HttpDelete]
-    [LocalToken]
     public async Task<HttpResponseBase> Delete([FromQuery] int id, [FromHeader] string token)
     {
 
@@ -283,6 +275,5 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
         return response;
 
     }
-
 
 }
