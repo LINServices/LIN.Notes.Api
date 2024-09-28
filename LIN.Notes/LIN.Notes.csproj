@@ -7,14 +7,22 @@
     <Configurations>Debug;Release;Local</Configurations>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
+	
+  <ItemGroup>
+    <Compile Remove="Data\**" />
+    <Content Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.12.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
-  <ItemGroup>
+
+	  <ItemGroup>
     <ProjectReference Include="..\..\..\AccesoAPI\LIN.Access.Auth\LIN.Access.Auth.csproj" />
     <ProjectReference Include="..\..\..\AccesoAPI\LIN.Access.Logger\LIN.Access.Logger.csproj" />
     <ProjectReference Include="..\..\..\Tipos\Http\Http.csproj" />
@@ -22,6 +30,7 @@
     <ProjectReference Include="..\..\..\Tipos\LIN.Types.Emma\LIN.Types.Emma.csproj" />
     <ProjectReference Include="..\..\..\Tipos\LIN.Types.Notes\LIN.Types.Notes.csproj" />
     <ProjectReference Include="..\..\..\Tipos\LIN.Types\LIN.Types.csproj" />
+    <ProjectReference Include="..\LIN.Notes.Persistence\LIN.Notes.Persistence.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="System.ComponentModel.DataAnnotations.Schema" />

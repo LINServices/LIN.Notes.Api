@@ -1,23 +1,25 @@
-﻿namespace LIN.Notes.Data;
+﻿using LIN.Types.Notes.Enumerations;
+using LIN.Types.Notes.Transient;
+using Microsoft.EntityFrameworkCore;
 
+namespace LIN.Notes.Persistence.Access;
 
-public partial class NoteAccess
+public class NoteAccess(DataContext context)
 {
-
 
     /// <summary>
     /// Crear acceso a note.
     /// </summary>
     /// <param name="model">Modelo.</param>
     /// <param name="context">Contexto de base de datos.</param>
-    public async static Task<CreateResponse> Create(NoteAccessDataModel model, Conexión context)
+    public async Task<CreateResponse> Create(NoteAccessDataModel model)
     {
 
         // Ejecución
         try
         {
             // Consultar si ya existe.
-            var exist = await (from AI in context.DataBase.AccessNotes
+            var exist = await (from AI in context.AccessNotes
                                where AI.ProfileID == model.ProfileID
                                && AI.NoteId == model.NoteId
                                select AI.Id).FirstOrDefaultAsync();
@@ -32,16 +34,14 @@ public partial class NoteAccess
 
             model.Id = 0;
 
-            await context.DataBase.AccessNotes.AddAsync(model);
+            await context.AccessNotes.AddAsync(model);
 
-            context.DataBase.SaveChanges();
+            context.SaveChanges();
 
             return new(Responses.Success)
             {
                 LastID = model.Id
             };
-
-
         }
         catch (Exception)
         {
@@ -51,13 +51,12 @@ public partial class NoteAccess
     }
 
 
-
     /// <summary>
     /// Obtener las invitaciones de un perfil.
     /// </summary>
     /// <param name="id">Id del perfil.</param>
     /// <param name="context">Contexto de base de datos.</param>
-    public async static Task<ReadAllResponse<Notification>> ReadAll(int id, Conexión context)
+    public async Task<ReadAllResponse<Notification>> ReadAll(int id)
     {
 
         // Ejecución
@@ -65,9 +64,9 @@ public partial class NoteAccess
         {
 
             // Consulta
-            var res = from AI in context.DataBase.AccessNotes
+            var res = from AI in context.AccessNotes
                       where AI.ProfileID == id && AI.State == NoteAccessState.OnWait
-                      join I in context.DataBase.Notes on AI.NoteId equals I.Id
+                      join I in context.Notes on AI.NoteId equals I.Id
                       select new Notification()
                       {
                           ID = AI.Id,
@@ -94,13 +93,12 @@ public partial class NoteAccess
     }
 
 
-
     /// <summary>
     /// Obtener una invitación.
     /// </summary>
     /// <param name="id">Id de la invitación.</param>
     /// <param name="context">Contexto de conexión</param>
-    public async static Task<ReadOneResponse<Notification>> Read(int id, Conexión context)
+    public async Task<ReadOneResponse<Notification>> Read(int id)
     {
 
         // Ejecución
@@ -108,9 +106,9 @@ public partial class NoteAccess
         {
 
             // Consulta
-            var res = from AI in context.DataBase.AccessNotes
+            var res = from AI in context.AccessNotes
                       where AI.Id == id && AI.State == NoteAccessState.OnWait
-                      join I in context.DataBase.Notes on AI.NoteId equals I.Id
+                      join I in context.Notes on AI.NoteId equals I.Id
                       select new Notification()
                       {
                           ID = AI.Id,
@@ -129,13 +127,12 @@ public partial class NoteAccess
 
 
         }
-        catch (Exception )
+        catch (Exception)
         {
         }
 
         return new();
     }
-
 
 
     /// <summary>
@@ -144,25 +141,25 @@ public partial class NoteAccess
     /// <param name="id">Id de la invitación</param>
     /// <param name="estado">Nuevo estado</param>
     /// <param name="context">Contexto de conexión</param>
-    public async static Task<ResponseBase> UpdateState(int id, NoteAccessState estado, Conexión context)
+    public async Task<ResponseBase> UpdateState(int id, NoteAccessState estado)
     {
 
         // Ejecución
         try
         {
-            var model = await context.DataBase.AccessNotes.FindAsync(id);
+            var model = await context.AccessNotes.FindAsync(id);
 
             if (model != null)
             {
                 model.State = estado;
-                context.DataBase.SaveChanges();
+                context.SaveChanges();
                 return new(Responses.Success);
             }
 
             return new(Responses.NotRows);
 
         }
-        catch (Exception )
+        catch (Exception)
         {
         }
 
@@ -170,13 +167,12 @@ public partial class NoteAccess
     }
 
 
-
     /// <summary>
     /// Obtiene la lista de integrantes de un note.
     /// </summary>
     /// <param name="inventario">Id del note</param>
     /// <param name="context">Contexto de conexión</param>
-    public async static Task<ReadAllResponse<Tuple<NoteAccessDataModel, ProfileModel>>> ReadMembers(int inventario, Conexión context)
+    public async Task<ReadAllResponse<Tuple<NoteAccessDataModel, ProfileModel>>> ReadMembers(int inventario)
     {
 
         // Ejecución
@@ -184,11 +180,11 @@ public partial class NoteAccess
         {
 
             // Consulta
-            var res = from AI in context.DataBase.AccessNotes
+            var res = from AI in context.AccessNotes
                       where AI.NoteId == inventario
-                       &&( AI.State == NoteAccessState.Accepted 
+                       && (AI.State == NoteAccessState.Accepted
                        || AI.State == NoteAccessState.OnWait)
-                      join U in context.DataBase.Profiles on AI.ProfileID equals U.ID
+                      join U in context.Profiles on AI.ProfileID equals U.ID
                       select new Tuple<NoteAccessDataModel, ProfileModel>(AI, U);
 
 
@@ -201,13 +197,12 @@ public partial class NoteAccess
 
 
         }
-        catch (Exception )
+        catch (Exception)
         {
         }
 
         return new();
     }
-
 
 
     /// <summary>
@@ -216,7 +211,7 @@ public partial class NoteAccess
     /// <param name="note">Id del note.</param>
     /// <param name="profile">Id del perfil.</param>
     /// <param name="context">Contexto de conexión.</param>
-    public async static Task<ResponseBase> DeleteSomeOne(int note, int profile, Conexión context)
+    public async Task<ResponseBase> DeleteSomeOne(int note, int profile)
     {
 
         // Ejecución
@@ -224,7 +219,7 @@ public partial class NoteAccess
         {
 
             // Actualizar estado.
-            var result = await (from AI in context.DataBase.AccessNotes
+            var result = await (from AI in context.AccessNotes
                                 where AI.NoteId == note
                                 where AI.ProfileID == profile
                                 select AI).ExecuteUpdateAsync(t => t.SetProperty(t => t.State, NoteAccessState.Deleted));
@@ -238,7 +233,5 @@ public partial class NoteAccess
 
         return new();
     }
-
-
 
 }

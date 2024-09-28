@@ -1,19 +1,18 @@
-﻿namespace LIN.Notes.Data;
+﻿using LIN.Types.Notes.Models;
+using Microsoft.EntityFrameworkCore;
 
+namespace LIN.Notes.Persistence.Context;
 
 /// <summary>
 /// Nuevo contexto a la base de datos
 /// </summary>
-public class Context(DbContextOptions<Context> options) : DbContext(options)
+public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
 {
-
-
 
     /// <summary>
     /// Tabla de perfiles.
     /// </summary>
     public DbSet<ProfileModel> Profiles { get; set; }
-
 
 
     /// <summary>
@@ -22,13 +21,10 @@ public class Context(DbContextOptions<Context> options) : DbContext(options)
     public DbSet<NoteDataModel> Notes { get; set; }
 
 
-
     /// <summary>
     /// Acceso a los Notes
     /// </summary>
     public DbSet<NoteAccessDataModel> AccessNotes { get; set; }
-
-
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,14 +35,11 @@ public class Context(DbContextOptions<Context> options) : DbContext(options)
            .HasIndex(e => e.AccountID)
            .IsUnique();
 
-
-        
         modelBuilder.Entity<NoteAccessDataModel>()
                           .HasOne(t => t.Note)
                           .WithMany(t => t.UsersAccess)
                           .HasForeignKey(y => y.NoteId)
                           .OnDelete(DeleteBehavior.NoAction);
-
 
         modelBuilder.Entity<NoteAccessDataModel>()
                         .HasOne(t => t.Profile)
@@ -54,8 +47,10 @@ public class Context(DbContextOptions<Context> options) : DbContext(options)
                         .HasForeignKey(y => y.ProfileID)
                         .OnDelete(DeleteBehavior.NoAction);
 
+        modelBuilder.Entity<ProfileModel>().ToTable("profiles");
+        modelBuilder.Entity<NoteDataModel>().ToTable("notes");
+        modelBuilder.Entity<NoteAccessDataModel>().ToTable("note_access");
+
     }
-
-
 
 }

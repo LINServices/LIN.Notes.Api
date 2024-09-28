@@ -15,3 +15,4 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.IdentityModel.Tokens;
 global using Newtonsoft.Json;
 global using System.Text;
+global using LIN.Notes.Persistence.Access;

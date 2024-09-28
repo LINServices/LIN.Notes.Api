@@ -1,29 +1,29 @@
-﻿namespace LIN.Notes.Data;
+﻿using Microsoft.EntityFrameworkCore;
 
+namespace LIN.Notes.Persistence.Access;
 
-public partial class Profiles
+public class Profiles(DataContext context)
 {
-
 
     /// <summary>
     /// Crear nuevo perfil.
     /// </summary>
     /// <param name="data">Data.</param>
     /// <param name="context">Contexto de base de datos.</param>
-    public async static Task<ReadOneResponse<ProfileModel>> Create(AuthModel<ProfileModel> data, Conexión context)
+    public async Task<ReadOneResponse<ProfileModel>> Create(AuthModel<ProfileModel> data)
     {
 
         data.Profile.ID = 0;
 
         // Ejecución (Transacción)
-        using (var transaction = context.DataBase.Database.BeginTransaction())
+        using (var transaction = context.Database.BeginTransaction())
         {
             try
             {
-                await context.DataBase.Profiles.AddAsync(data.Profile);
-                context.DataBase.SaveChanges();
+                await context.Profiles.AddAsync(data.Profile);
+                context.SaveChanges();
 
-              
+
                 transaction.Commit();
 
 
@@ -41,20 +41,19 @@ public partial class Profiles
     }
 
 
-
     /// <summary>
     /// Obtener un perfil.
     /// </summary>
     /// <param name="id">Id del perfil.</param>
     /// <param name="context">Contexto de base de datos.</param>
-    public async static Task<ReadOneResponse<ProfileModel>> Read(int id, Conexión context)
+    public async Task<ReadOneResponse<ProfileModel>> Read(int id)
     {
 
         // Ejecución
         try
         {
 
-            var res = await LIN.Notes.Data.Query.Profiles.Read(id, context).FirstOrDefaultAsync();
+            var res = await Query.Profiles.Read(id, context).FirstOrDefaultAsync();
 
             // Si no existe el modelo
             if (res == null)
@@ -68,7 +67,6 @@ public partial class Profiles
 
         return new();
     }
-
 
 
     /// <summary>
@@ -76,14 +74,14 @@ public partial class Profiles
     /// </summary>
     /// <param name="ids">Id de los perfiles.</param>
     /// <param name="context">Contexto de base de datos.</param>
-    public async static Task<ReadAllResponse<ProfileModel>> Read(List<int> ids, Conexión context)
+    public async Task<ReadAllResponse<ProfileModel>> Read(List<int> ids)
     {
 
         // Ejecución
         try
         {
 
-            var res = await LIN.Notes.Data.Query.Profiles.Read(ids, context).ToListAsync();
+            var res = await Query.Profiles.Read(ids, context).ToListAsync();
 
             // Si no existe el modelo
             if (res == null)
@@ -97,7 +95,6 @@ public partial class Profiles
 
         return new();
     }
-
 
 
     /// <summary>
@@ -105,14 +102,14 @@ public partial class Profiles
     /// </summary>
     /// <param name="ids">Id de los perfiles.</param>
     /// <param name="context">Contexto de base de datos.</param>
-    public async static Task<ReadAllResponse<ProfileModel>> ReadByAccounts(List<int> ids, Conexión context)
+    public async Task<ReadAllResponse<ProfileModel>> ReadByAccounts(List<int> ids)
     {
 
         // Ejecución
         try
         {
 
-            var res = await LIN.Notes.Data.Query.Profiles.ReadByAccounts(ids, context).ToListAsync();
+            var res = await Query.Profiles.ReadByAccounts(ids, context).ToListAsync();
 
             // Si no existe el modelo
             if (res == null)
@@ -126,7 +123,6 @@ public partial class Profiles
 
         return new();
     }
-
 
 
     /// <summary>
@@ -134,14 +130,14 @@ public partial class Profiles
     /// </summary>
     /// <param name="id">Id de la cuenta.</param>
     /// <param name="context">Contexto de base de datos.</param>
-    public async static Task<ReadOneResponse<ProfileModel>> ReadByAccount(int id, Conexión context)
+    public async Task<ReadOneResponse<ProfileModel>> ReadByAccount(int id)
     {
 
         // Ejecución
         try
         {
 
-            var res = await LIN.Notes.Data.Query.Profiles.ReadByAccount(id, context).FirstOrDefaultAsync();
+            var res = await Query.Profiles.ReadByAccount(id, context).FirstOrDefaultAsync();
 
             // Si no existe el modelo
             if (res == null)
@@ -155,7 +151,5 @@ public partial class Profiles
 
         return new();
     }
-
-
 
 }

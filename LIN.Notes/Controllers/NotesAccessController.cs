@@ -4,7 +4,7 @@ namespace LIN.Notes.Controllers;
 
 
 [Route("Notes/access")]
-public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam) : ControllerBase
+public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, NoteAccess noteAccess) : ControllerBase
 {
 
 
@@ -50,12 +50,12 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam) :
         model.Fecha = DateTime.Now;
 
         // Crear acceso.
-        var result = await Data.NoteAccess.Create(model);
+        var result = await noteAccess.Create(model);
 
         // Si el recurso ya existe.
         if (result.Response == Responses.ResourceExist)
         {
-            var update = await Data.NoteAccess.UpdateState(result.LastID, NoteAccessState.OnWait);
+            var update = await noteAccess.UpdateState(result.LastID, NoteAccessState.OnWait);
             result.Response = update.Response;
         }
 
@@ -98,7 +98,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam) :
 
 
         // Obtiene la lista de Id's de inventarios
-        var result = await Data.NoteAccess.Read(id);
+        var result = await noteAccess.Read(id);
 
         // Retorna el resultado
         return result;
@@ -120,7 +120,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam) :
         var tokenInfo = HttpContext.Items[token] as JwtInformation ?? new();
 
         // Obtiene la lista de Id's de inventarios
-        var result = await Data.NoteAccess.ReadAll(tokenInfo.ProfileId);
+        var result = await noteAccess.ReadAll(tokenInfo.ProfileId);
 
         // Retorna el resultado
         return result;
@@ -154,7 +154,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam) :
 
 
         // Obtiene la lista de Id's de inventarios
-        var result = await Data.NoteAccess.UpdateState(id, estado);
+        var result = await noteAccess.UpdateState(id, estado);
 
         // Retorna el resultado
         return result;
@@ -200,7 +200,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam) :
 
 
         // Obtiene la lista.
-        var result = await Data.NoteAccess.ReadMembers(inventario);
+        var result = await noteAccess.ReadMembers(inventario);
 
 
         var map = result.Models.Select(T => T.Item2.AccountID).ToList();
@@ -267,7 +267,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam) :
             };
 
         // Obtiene la lista de Id's de inventarios
-        var result = await Data.NoteAccess.DeleteSomeOne(inventario, usuario);
+        var result = await noteAccess.DeleteSomeOne(inventario, usuario);
 
         return result;
 

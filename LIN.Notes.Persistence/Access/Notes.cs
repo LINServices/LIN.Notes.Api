@@ -1,7 +1,10 @@
-﻿namespace LIN.Notes.Data;
+﻿using LIN.Types.Notes.Enumerations;
+using Microsoft.EntityFrameworkCore;
+
+namespace LIN.Notes.Persistence.Access;
 
 
-public partial class Notes
+public partial class Notes(DataContext context)
 {
 
 
@@ -10,14 +13,14 @@ public partial class Notes
     /// </summary>
     /// <param name="data">Modelo de la nota</param>
     /// <param name="context">Contexto de conexión</param>
-    public async static Task<CreateResponse> Create(NoteDataModel data, Conexión context)
+    public async Task<CreateResponse> Create(NoteDataModel data)
     {
 
         // Modelo
         data.Id = 0;
 
         // Transacción
-        using (var transaction = context.DataBase.Database.BeginTransaction())
+        using (var transaction = context.Database.BeginTransaction())
         {
             try
             {
@@ -30,14 +33,14 @@ public partial class Notes
                         ID = a.ProfileID,
                     };
                     a.Note = data;
-                    context.DataBase.Attach(a.Profile);
+                    context.Attach(a.Profile);
                 }
 
                 // InventoryId
-                context.DataBase.Notes.Add(data);
+                context.Notes.Add(data);
 
                 // Guarda el inventario
-                await context.DataBase.SaveChangesAsync();
+                await context.SaveChangesAsync();
 
                 // Finaliza
                 transaction.Commit();
@@ -46,7 +49,7 @@ public partial class Notes
             catch (Exception)
             {
                 transaction.Rollback();
-                context.DataBase.Remove(data);
+                context.Remove(data);
             }
         }
 
@@ -61,13 +64,13 @@ public partial class Notes
     /// </summary>
     /// <param name="id">Id de la nota</param>
     /// <param name="context">Contexto de conexión</param>
-    public async static Task<ReadOneResponse<NoteDataModel>> Read(int id, Conexión context)
+    public async Task<ReadOneResponse<NoteDataModel>> Read(int id)
     {
 
         // Ejecución
         try
         {
-            var res = await context.DataBase.Notes.FirstOrDefaultAsync(T => T.Id == id);
+            var res = await context.Notes.FirstOrDefaultAsync(T => T.Id == id);
 
             // Si no existe el modelo
             if (res == null)
@@ -88,13 +91,13 @@ public partial class Notes
     /// </summary>
     /// <param name="id">Id de la nota.</param>
     /// <param name="context">Contexto de conexión</param>
-    public async static Task<ResponseBase> Delete(int id, Conexión context)
+    public async Task<ResponseBase> Delete(int id)
     {
 
         // Ejecución
         try
         {
-            var res = await context.DataBase.AccessNotes.Where(T => T.NoteId == id).ExecuteDeleteAsync();
+            var res = await context.AccessNotes.Where(T => T.NoteId == id).ExecuteDeleteAsync();
 
             // Si no existe el modelo
             if (res <= 0)
@@ -116,16 +119,16 @@ public partial class Notes
     /// </summary>
     /// <param name="id">Id del perfil.</param>
     /// <param name="context">Contexto de conexión</param>
-    public async static Task<ReadAllResponse<NoteDataModel>> ReadAll(int id, Conexión context)
+    public async Task<ReadAllResponse<NoteDataModel>> ReadAll(int id)
     {
 
         // Ejecución
         try
         {
 
-            var res = from AI in context.DataBase.AccessNotes
+            var res = from AI in context.AccessNotes
                       where AI.ProfileID == id && AI.State == NoteAccessState.Accepted
-                      join I in context.DataBase.Notes on AI.NoteId equals I.Id
+                      join I in context.Notes on AI.NoteId equals I.Id
                       select new NoteDataModel()
                       {
                           Content = I.Content,
@@ -162,14 +165,14 @@ public partial class Notes
     /// </summary>
     /// <param name="note">Nueva información.</param>
     /// <param name="context">Contexto de conexión..</param>
-    public async static Task<ResponseBase> Update(NoteDataModel note, Conexión context)
+    public async Task<ResponseBase> Update(NoteDataModel note)
     {
 
         // Ejecución
         try
         {
 
-            var res = await (from I in context.DataBase.Notes
+            var res = await (from I in context.Notes
                              where I.Id == note.Id
                              select I).ExecuteUpdateAsync(t => t.SetProperty(a => a.Tittle, note.Tittle).SetProperty(a => a.Content, note.Content).SetProperty(a => a.Color, note.Color));
 
@@ -194,14 +197,14 @@ public partial class Notes
     /// <param name="id">Id de la nota.</param>
     /// <param name="color">Nuevo color.</param>
     /// <param name="context">Contexto.</param>
-    public async static Task<ResponseBase> UpdateColor(int id, int color, Conexión context)
+    public async Task<ResponseBase> UpdateColor(int id, int color)
     {
 
         // Ejecución
         try
         {
 
-            var res = await (from I in context.DataBase.Notes
+            var res = await (from I in context.Notes
                              where I.Id == id
                              select I).ExecuteUpdateAsync(t => t.SetProperty(a => a.Color, color));
 

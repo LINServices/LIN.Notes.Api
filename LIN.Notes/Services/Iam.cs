@@ -1,9 +1,10 @@
-﻿using LIN.Notes.Services.Abstractions;
+﻿using LIN.Notes.Persistence.Context;
+using LIN.Notes.Services.Abstractions;
 
 namespace LIN.Notes.Services;
 
 
-public class Iam : IIam
+public class Iam(DataContext context) : IIam
 {
 
     /// <summary>
@@ -14,11 +15,8 @@ public class Iam : IIam
     public async Task<bool> CanAccept(int id, int profile)
     {
 
-        // Db.
-        var (context, contextKey) = Conexión.GetOneConnection();
-
         // Query.
-        var access = await (from P in context.DataBase.AccessNotes
+        var access = await (from P in context.AccessNotes
                             where P.Id == id && P.ProfileID == profile
                             where P.State == NoteAccessState.OnWait
                             select new { P.NoteId }).FirstOrDefaultAsync();
@@ -58,14 +56,10 @@ public class Iam : IIam
     /// </summary>
     /// <param name="accessId">Id del acceso.</param>
     /// <param name="profile">Id del perfil.</param>
-    private static async Task<bool> OnAccess(int accessId, int profile)
+    private async Task<bool> OnAccess(int accessId, int profile)
     {
-
-        // Db.
-        var (context, contextKey) = Conexión.GetOneConnection();
-
         // Query.
-        var inventory = await (from P in context.DataBase.AccessNotes
+        var inventory = await (from P in context.AccessNotes
                                where P.Id == accessId
                                select P.NoteId).FirstOrDefaultAsync();
 
@@ -83,14 +77,10 @@ public class Iam : IIam
     /// </summary>
     /// <param name="id">Id del inventario.</param>
     /// <param name="profile">Id del perfil.</param>
-    private static async Task<bool> OnNote(int id, int profile)
+    private async Task<bool> OnNote(int id, int profile)
     {
-
-        // Db.
-        var (context, contextKey) = Conexión.GetOneConnection();
-
         // Query.
-        var access = await (from P in context.DataBase.AccessNotes
+        var access = await (from P in context.AccessNotes
                             where P.NoteId == id && P.ProfileID == profile
                             where P.State == NoteAccessState.Accepted
                             select new { P.ProfileID }).FirstOrDefaultAsync();

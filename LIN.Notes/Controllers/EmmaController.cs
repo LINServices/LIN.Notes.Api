@@ -4,7 +4,7 @@ namespace LIN.Notes.Controllers;
 
 
 [Route("[controller]")]
-public class EmmaController : ControllerBase
+public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) : ControllerBase
 {
 
 
@@ -79,7 +79,7 @@ public class EmmaController : ControllerBase
         }
 
         // 
-        var profile = await Data.Profiles.ReadByAccount(response.Model.Id);
+        var profile = await profiles.ReadByAccount(response.Model.Id);
 
 
         if (profile.Response != Responses.Success)
@@ -93,7 +93,7 @@ public class EmmaController : ControllerBase
 
 
 
-        var inventories = await Data.Notes.ReadAll(profile.Model.ID);
+        var inventories = await notes.ReadAll(profile.Model.ID);
 
 
 

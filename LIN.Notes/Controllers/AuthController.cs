@@ -1,7 +1,7 @@
 ﻿namespace LIN.Notes.Controllers;
 
 [Route("[controller]")]
-public class AuthController : ControllerBase
+public class AuthController (Profiles profiles) : ControllerBase
 {
 
 
@@ -34,7 +34,7 @@ public class AuthController : ControllerBase
             };
 
         // Obtiene el perfil.
-        var profile = await Data.Profiles.ReadByAccount(authResponse.Model.Id);
+        var profile = await profiles.ReadByAccount(authResponse.Model.Id);
 
         // Segun.
         switch (profile.Response)
@@ -48,7 +48,7 @@ public class AuthController : ControllerBase
                 {
 
                     // Crear el perfil.
-                    var createResponse = await Data.Profiles.Create(new()
+                    var createResponse = await profiles.Create(new()
                     {
                         Account = authResponse.Model,
                         Profile = new()
@@ -123,7 +123,7 @@ public class AuthController : ControllerBase
             };
 
         // Obtiene el perfil
-        var profile = await Data.Profiles.ReadByAccount(authResponse.Model.Id);
+        var profile = await profiles.ReadByAccount(authResponse.Model.Id);
 
         // Validar respuesta.
         switch (profile.Response)
@@ -138,7 +138,7 @@ public class AuthController : ControllerBase
                 {
 
                     // Crear el perfil.
-                    var createResponse = await Data.Profiles.Create(new()
+                    var createResponse = await profiles.Create(new()
                     {
                         Account = authResponse.Model,
                         Profile = new()

@@ -4,7 +4,7 @@ namespace LIN.Notes.Controllers;
 
 [Route("notes")]
 [LocalToken]
-public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : ControllerBase
+public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persistence.Access.Notes notes) : ControllerBase
 {
 
     /// <summary>
@@ -60,7 +60,7 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
         }
 
         // Crea el inventario
-        var response = await Data.Notes.Create(modelo);
+        var response = await notes.Create(modelo);
 
         // Si no se creo el inventario
         if (response.Response != Responses.Success)
@@ -84,7 +84,7 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
         var tokenInfo = HttpContext.Items[token] as JwtInformation ?? new();
 
         // Obtiene la lista de notas.
-        var result = await Data.Notes.ReadAll(tokenInfo.ProfileId);
+        var result = await notes.ReadAll(tokenInfo.ProfileId);
 
         return result;
 
@@ -121,7 +121,7 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
 
 
         // Crea la nota.
-        var response = await Data.Notes.Read(id);
+        var response = await notes.Read(id);
 
         // Si no se creo la nota.
         if (response.Response != Responses.Success)
@@ -162,7 +162,7 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
             };
 
         // Actualizar el contenido.
-        var response = await Data.Notes.Update(note);
+        var response = await notes.Update(note);
 
         hubContext.Clients.Group($"note.{note.Id}").SendAsync("");
 
@@ -202,7 +202,7 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
             };
 
         // Actualizar el rol.
-        var response = await Data.Notes.UpdateColor(id, color);
+        var response = await notes.UpdateColor(id, color);
 
 
         // Realtime.
@@ -255,7 +255,7 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext) : Contro
 
 
         // Crea la nota.
-        var response = await Data.Notes.Delete(id);
+        var response = await notes.Delete(id);
 
         // Realtime.
         if (response.Response == Responses.Success)
