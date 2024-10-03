@@ -1,3 +1,4 @@
+using LIN.Notes.Persistence.Access;
 using LIN.Notes.Services.Abstractions;
 using LIN.Types.Enumerations;
 
@@ -69,10 +70,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
         // Crea el inventario
         var response = await notes.Create(modelo);
 
-        // Si no se creo el inventario
-        if (response.Response != Responses.Success)
-            return response;
-
         // Retorna
         return response;
 
@@ -141,12 +138,54 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
 
 
     /// <summary>
+    /// Obtener el lenguaje de una nota.
+    /// </summary>
+    /// <param name="id">Id de la nota.</param>
+    /// <param name="token">Token de acceso.</param>
+    [HttpGet("lang")]
+    public async Task<HttpReadOneResponse<Languages>> GetLang([FromQuery] int id, [FromHeader] string token)
+    {
+
+        // Información del token.
+        var tokenInfo = HttpContext.Items[token] as JwtInformation ?? new();
+
+        // Acceso Iam.
+        var iam = await Iam.Validate(new IamRequest()
+        {
+            IamBy = IamBy.Note,
+            Id = id,
+            Profile = tokenInfo.ProfileId
+        });
+
+        // Validar Iam.
+        if (!iam)
+            return new()
+            {
+                Response = Responses.Unauthorized,
+                Message = "No tienes autorización."
+            };
+
+
+        // Crea la nota.
+        var response = await notes.ReadLang(id);
+
+        // Si no se creo la nota.
+        if (response.Response != Responses.Success)
+            return response;
+
+        // Retorna
+        return response;
+
+    }
+
+
+    /// <summary>
     /// Actualizar una nota.
     /// </summary>
     /// <param name="note">Nuevo modelo.</param>
     /// <param name="token">Token de acceso.</param>
     [HttpPatch]
-    public async Task<HttpResponseBase> Update([FromBody] NoteDataModel note, [FromHeader] string token)
+    public async Task<HttpReadOneResponse<Languages>> Update([FromBody] NoteDataModel note, [FromHeader] string token)
     {
 
         // Información del token.
@@ -184,7 +223,10 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
         await hubContext.Clients.Group($"note.{note.Id}").SendAsync("");
 
         // Retorna
-        return response;
+        return new(response.Response, note.Language)
+        {
+            Message = response.Message
+        };
 
     }
 

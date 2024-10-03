@@ -1,4 +1,5 @@
-﻿using LIN.Types.Notes.Enumerations;
+﻿using LIN.Types.Enumerations;
+using LIN.Types.Notes.Enumerations;
 using Microsoft.EntityFrameworkCore;
 
 namespace LIN.Notes.Persistence.Access;
@@ -73,10 +74,32 @@ public partial class Notes(DataContext context)
             var res = await context.Notes.FirstOrDefaultAsync(T => T.Id == id);
 
             // Si no existe el modelo
-            if (res == null)
-                return new(Responses.NotRows);
+            return res == null ? new(Responses.NotRows) : new(Responses.Success, res);
+        }
+        catch (Exception)
+        {
+        }
 
-            return new(Responses.Success, res);
+        return new();
+    }
+
+
+
+    /// <summary>
+    /// Obtiene una nota.
+    /// </summary>
+    /// <param name="id">Id de la nota</param>
+    /// <param name="context">Contexto de conexión</param>
+    public async Task<ReadOneResponse<Languages>> ReadLang(int id)
+    {
+
+        // Ejecución
+        try
+        {
+            var res = await context.Notes.Select(t => new { t.Id, t.Language }).FirstOrDefaultAsync(T => T.Id == id);
+
+            // Si no existe el modelo
+            return res == null ? new(Responses.NotRows) : (ReadOneResponse<Languages>)new(Responses.Success, res.Language);
         }
         catch (Exception)
         {
@@ -100,10 +123,7 @@ public partial class Notes(DataContext context)
             var res = await context.AccessNotes.Where(T => T.NoteId == id).ExecuteDeleteAsync();
 
             // Si no existe el modelo
-            if (res <= 0)
-                return new(Responses.NotRows);
-
-            return new(Responses.Success);
+            return res <= 0 ? new(Responses.NotRows) : new(Responses.Success);
         }
         catch (Exception)
         {
@@ -134,18 +154,14 @@ public partial class Notes(DataContext context)
                           Content = I.Content,
                           Id = I.Id,
                           Tittle = I.Tittle,
-                          Color = I.Color
+                          Color = I.Color,
+                          Language = I.Language,
                       };
 
 
             var modelos = await res.ToListAsync();
 
-            if (modelos != null)
-                return new(Responses.Success, modelos);
-
-            return new(Responses.NotRows);
-
-
+            return modelos != null ? new(Responses.Success, modelos) : new(Responses.NotRows);
         }
         catch (Exception)
         {
@@ -174,7 +190,7 @@ public partial class Notes(DataContext context)
 
             var res = await (from I in context.Notes
                              where I.Id == note.Id
-                             select I).ExecuteUpdateAsync(t => t.SetProperty(a => a.Tittle, note.Tittle).SetProperty(a => a.Content, note.Content).SetProperty(a => a.Color, note.Color));
+                             select I).ExecuteUpdateAsync(t => t.SetProperty(a => a.Tittle, note.Tittle).SetProperty(a => a.Content, note.Content).SetProperty(a => a.Color, note.Color).SetProperty(a => a.Language, note.Language));
 
 
             return new(Responses.Success);
