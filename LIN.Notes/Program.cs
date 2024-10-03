@@ -12,6 +12,7 @@ builder.Services.AddSignalR();
 builder.Services.AddLINHttp();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IIam, Iam>();
+builder.Services.AddScoped<LangService, LangService>();
 builder.Services.AddAuthenticationService();
 builder.Services.AddPersistence(builder.Configuration);
 

@@ -4,7 +4,6 @@
 public class AuthController (Profiles profiles) : ControllerBase
 {
 
-
     /// <summary>
     /// Iniciar sesión.
     /// </summary>

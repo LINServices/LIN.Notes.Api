@@ -33,7 +33,7 @@ public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) :
 
         StringContent stringContent = new(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
-        var result = await client.PostAsync("http://api.emma.linapps.co/emma", stringContent);
+        var result = await client.PostAsync("http://api.emma.linplatform.com/emma", stringContent);
 
 
         var ss = await result.Content.ReadAsStringAsync();
@@ -100,21 +100,19 @@ public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) :
 
         string final = $$""""
 
-                        Eres un sofisticado asesor de ventas, analítico y otras funciones.
-
-                        Estos son datos e inventarios que que el usuario tiene:
+                        puedes leer las notas del usuario y responder de acuerdo a ellas.
 
                         """";
 
 
         foreach (var i in inventories.Models)
         {
-           // final += $$"""{ Nombre: {{i.Nombre}}, MiRol: {{i.MyRol}}, Id: {{i.ID}} }""" + "\n";
+            final += $"{i.Content}" + Environment.NewLine;
         }
 
 
         final += includeMethods ? """
-             Estos son comandos, los cuales debes responder con el formato igual a este:
+            Estos son comandos, los cuales debes responder con el formato igual a este:
             
             "#Comando(Propiedades en orden separados por coma si es necesario)"
             
@@ -131,7 +129,6 @@ public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) :
                 }
               }
             }
-            
             
             {
               "name": "#say",
@@ -151,7 +148,7 @@ public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) :
             No en todos los casos en necesario usar comandos, solo úsalos cuando se cumpla la descripción.
             
             NUNCA debes inventar comandos nuevos, solo puedes usar los que ya existen.
-            """ : "\nPuedes contestar con la información de los inventarios del usuario, pero si te piden que hagas algo que no puedes hacer debes responder que en el contexto de la app actual no puedes ejecutar ninguna función";
+            """ : "\nPuedes contestar con la información de las notas del usuario, pero si te piden que hagas algo que no puedes hacer debes responder que en el contexto de la app actual no puedes ejecutar ninguna función";
 
         return new ReadOneResponse<object>()
         {

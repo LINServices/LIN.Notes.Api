@@ -1,10 +1,11 @@
 using LIN.Notes.Services.Abstractions;
+using LIN.Types.Enumerations;
 
 namespace LIN.Notes.Controllers;
 
 [Route("notes")]
 [LocalToken]
-public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persistence.Access.Notes notes) : ControllerBase
+public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persistence.Access.Notes notes, LangService langService) : ControllerBase
 {
 
     /// <summary>
@@ -27,6 +28,8 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
         modelo.Tittle ??= "";
         modelo.Content ??= "";
 
+        // Consulta de idioma.
+        var taskLang = langService.Lang(modelo.Content);
 
         var exist = modelo.UsersAccess.FirstOrDefault(t => t.ProfileID == tokenInfo.ProfileId);
 
@@ -42,8 +45,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
 
         }
 
-
-
         // Modelo
         foreach (var access in modelo.UsersAccess)
         {
@@ -58,6 +59,12 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
                 access.State = NoteAccessState.OnWait;
             }
         }
+
+        // Esperar lang.
+        await taskLang;
+
+        // Asignar el idioma.
+        modelo.Language = taskLang.Result;
 
         // Crea el inventario
         var response = await notes.Create(modelo);
@@ -145,6 +152,9 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
         // Información del token.
         var tokenInfo = HttpContext.Items[token] as JwtInformation ?? new();
 
+        // Consulta de idioma.
+        var taskLang = langService.Lang(note.Content);
+
         // Acceso Iam.
         var iam = await Iam.Validate(new IamRequest()
         {
@@ -161,10 +171,17 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
                 Message = "No tienes autorización."
             };
 
+
+        // Esperar lang.
+        await taskLang;
+
+        // Asignar el idioma.
+        note.Language = taskLang.Result;
+
         // Actualizar el contenido.
         var response = await notes.Update(note);
 
-        hubContext.Clients.Group($"note.{note.Id}").SendAsync("");
+        await hubContext.Clients.Group($"note.{note.Id}").SendAsync("");
 
         // Retorna
         return response;
@@ -208,7 +225,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
         // Realtime.
         if (response.Response == Responses.Success)
         {
-
             // Realtime.
             string groupName = $"group.{tokenInfo.ProfileId}";
             string command = $"updateColor({id}, {color})";
@@ -216,7 +232,6 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
             {
                 Command = command
             });
-
         }
 
         // Retorna
