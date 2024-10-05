@@ -16,7 +16,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.12.0" />
+    <PackageReference Include="Azure.Identity" Version="1.12.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -27,7 +27,7 @@
     <ProjectReference Include="..\..\..\AccesoAPI\LIN.Access.Logger\LIN.Access.Logger.csproj" />
     <ProjectReference Include="..\..\..\Tipos\Http\Http.csproj" />
     <ProjectReference Include="..\..\..\Tipos\LIN.Types.Cloud.Identity\LIN.Types.Cloud.Identity.csproj" />
-    <ProjectReference Include="..\..\..\Tipos\LIN.Types.Emma\LIN.Types.Emma.csproj" />
+    <ProjectReference Include="..\..\..\Tipos\LIN.Types.Cloud.OpenAssistant\LIN.Types.Cloud.OpenAssistant.csproj" />
     <ProjectReference Include="..\..\..\Tipos\LIN.Types.Notes\LIN.Types.Notes.csproj" />
     <ProjectReference Include="..\..\..\Tipos\LIN.Types\LIN.Types.csproj" />
     <ProjectReference Include="..\LIN.Notes.Persistence\LIN.Notes.Persistence.csproj" />
