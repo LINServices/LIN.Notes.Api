@@ -1,10 +1,8 @@
 namespace LIN.Notes.Controllers;
 
-
-[Route("profile")]
+[Route("[controller]")]
 public class ProfileController(Profiles profiles) : ControllerBase
 {
-
 
     /// <summary>
     /// Obtiene un usuario por medio del Id
@@ -14,13 +12,14 @@ public class ProfileController(Profiles profiles) : ControllerBase
     public async Task<HttpReadOneResponse<ProfileModel>> Read([FromQuery] int id)
     {
 
+        // Validar Id.
         if (id <= 0)
             return new(Responses.InvalidParam);
 
-        // Obtiene el usuario
+        // Obtiene el usuario.
         var response = await profiles.Read(id);
 
-        // Si es erróneo
+        // Si es erróneo.
         if (response.Response != Responses.Success)
             return new ReadOneResponse<ProfileModel>()
             {
@@ -28,11 +27,10 @@ public class ProfileController(Profiles profiles) : ControllerBase
                 Model = new()
             };
 
-        // Retorna el resultado
+        // Retorna el resultado.
         return response;
 
     }
-
 
 
     /// <summary>
@@ -44,17 +42,17 @@ public class ProfileController(Profiles profiles) : ControllerBase
     public async Task<HttpReadAllResponse<SessionModel<ProfileModel>>> Search([FromQuery] string pattern, [FromHeader] string token)
     {
 
-        // Usuarios
+        // Usuarios.
         var users = await Access.Auth.Controllers.Account.Search(pattern, token);
 
-        // Si hubo un error
+        // Si hubo un error.
         if (users.Response != Responses.Success)
             return new(users.Response);
 
         // Mapear los ids de los usuarios.
         var map = users.Models.Select(T => T.Id).ToList();
 
-        // Obtiene el usuario
+        // Obtiene el usuario.
         var response = await profiles.ReadByAccounts(map);
 
         // Unir las respuestas.
@@ -67,7 +65,7 @@ public class ProfileController(Profiles profiles) : ControllerBase
                          Profile = Profile
                      }).ToList();
 
-        // Retorna el resultado
+        // Retorna el resultado.
         return new ReadAllResponse<SessionModel<ProfileModel>>
         {
             Response = Responses.Success,
@@ -75,7 +73,5 @@ public class ProfileController(Profiles profiles) : ControllerBase
         };
 
     }
-
-
 
 }

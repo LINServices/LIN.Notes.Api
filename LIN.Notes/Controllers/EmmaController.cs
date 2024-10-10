@@ -2,11 +2,9 @@ using LIN.Types.Cloud.OpenAssistant.Api;
 
 namespace LIN.Notes.Controllers;
 
-
 [Route("[controller]")]
 public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) : ControllerBase
 {
-
 
     /// <summary>
     /// Respuesta de Emma al usuario.
@@ -149,8 +147,5 @@ public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) :
         };
 
     }
-
-
-
 
 }

@@ -1,12 +1,11 @@
-using LIN.Notes.Persistence.Access;
 using LIN.Notes.Services.Abstractions;
 using LIN.Types.Enumerations;
 
 namespace LIN.Notes.Controllers;
 
-[Route("notes")]
 [LocalToken]
-public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persistence.Access.Notes notes, LangService langService) : ControllerBase
+[Route("notes")]
+public class NoteController(IIam Iam, HubService hubService, Persistence.Access.Notes notes, LangService langService) : ControllerBase
 {
 
     /// <summary>
@@ -25,40 +24,31 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
         if (modelo == null)
             return new(Responses.InvalidParam);
 
-
+        // Evitar nulos.
         modelo.Tittle ??= "";
         modelo.Content ??= "";
 
         // Consulta de idioma.
         var taskLang = langService.Lang(modelo.Content);
 
+        // Validar si existe.
         var exist = modelo.UsersAccess.FirstOrDefault(t => t.ProfileID == tokenInfo.ProfileId);
 
-        if (exist == null)
+        if (exist is null)
         {
-
             modelo.UsersAccess.Add(new()
             {
                 Fecha = DateTime.Now,
                 State = NoteAccessState.Accepted,
                 ProfileID = tokenInfo.ProfileId,
             });
-
         }
 
-        // Modelo
+        // Modelo.
         foreach (var access in modelo.UsersAccess)
         {
-
             access.Fecha = DateTime.Now;
-            if (tokenInfo.ProfileId == access.ProfileID)
-            {
-                access.State = NoteAccessState.Accepted;
-            }
-            else
-            {
-                access.State = NoteAccessState.OnWait;
-            }
+            access.State = tokenInfo.ProfileId == access.ProfileID ? NoteAccessState.Accepted : NoteAccessState.OnWait;
         }
 
         // Esperar lang.
@@ -67,8 +57,12 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
         // Asignar el idioma.
         modelo.Language = taskLang.Result;
 
-        // Crea el inventario
+        // Crea la nota.
         var response = await notes.Create(modelo);
+
+        // Enviar en Realtime.
+        if (response.Response == Responses.Success)
+            await hubService.NewNote(tokenInfo.ProfileId, response.LastID);
 
         // Retorna
         return response;
@@ -220,7 +214,8 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
         // Actualizar el contenido.
         var response = await notes.Update(note);
 
-        await hubContext.Clients.Group($"note.{note.Id}").SendAsync("");
+        if (response.Response is Responses.Success)
+            await hubService.UpdateNote(tokenInfo.ProfileId, note.Id);
 
         // Retorna
         return new(response.Response, note.Language)
@@ -263,18 +258,9 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
         // Actualizar el rol.
         var response = await notes.UpdateColor(id, color);
 
-
         // Realtime.
         if (response.Response == Responses.Success)
-        {
-            // Realtime.
-            string groupName = $"group.{tokenInfo.ProfileId}";
-            string command = $"updateColor({id}, {color})";
-            await hubContext.Clients.Group(groupName).SendAsync("#command", new CommandModel()
-            {
-                Command = command
-            });
-        }
+            await hubService.UpdateNoteColor(tokenInfo.ProfileId, id, color);
 
         // Retorna
         return response;
@@ -310,23 +296,11 @@ public class NoteController(IIam Iam, IHubContext<NotesHub> hubContext, Persiste
                 Message = "No tienes autorización."
             };
 
-
         // Crea la nota.
         var response = await notes.Delete(id);
 
-        // Realtime.
-        if (response.Response == Responses.Success)
-        {
-
-            // Realtime.
-            string groupName = $"group.{tokenInfo.ProfileId}";
-            string command = $"remove({id})";
-            await hubContext.Clients.Group(groupName).SendAsync("#command", new CommandModel()
-            {
-                Command = command
-            });
-
-        }
+        if (response.Response is Responses.Success)
+            await hubService.DeleteNote(tokenInfo.ProfileId, id);
 
         // Retorna
         return response;
