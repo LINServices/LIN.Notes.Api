@@ -10,15 +10,15 @@
   
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.12.1" />
+    <PackageReference Include="Http.Utils" Version="1.0.0" />
+    <PackageReference Include="LIN.Access.Auth" Version="1.1.0" />
     <PackageReference Include="LIN.Types.Cloud.OpenAssistant" Version="1.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 	  <ItemGroup>
-    <ProjectReference Include="..\..\..\AccesoAPI\LIN.Access.Auth\LIN.Access.Auth.csproj" />
     <ProjectReference Include="..\..\..\AccesoAPI\LIN.Access.Logger\LIN.Access.Logger.csproj" />
-    <ProjectReference Include="..\..\..\Tipos\Http\Http.csproj" />
     <ProjectReference Include="..\LIN.Notes.Persistence\LIN.Notes.Persistence.csproj" />
   </ItemGroup>
   <ItemGroup>

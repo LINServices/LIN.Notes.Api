@@ -85,7 +85,7 @@ public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) :
 
 
 
-        var inventories = await notes.ReadAll(profile.Model.ID);
+        var inventories = await notes.ReadAll(profile.Model.Id);
 
 
 

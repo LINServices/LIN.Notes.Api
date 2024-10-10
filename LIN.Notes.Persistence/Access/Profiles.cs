@@ -13,7 +13,7 @@ public class Profiles(DataContext context)
     public async Task<ReadOneResponse<ProfileModel>> Create(AuthModel<ProfileModel> data)
     {
 
-        data.Profile.ID = 0;
+        data.Profile.Id = 0;
 
         // Ejecución (Transacción)
         using (var transaction = context.Database.BeginTransaction())

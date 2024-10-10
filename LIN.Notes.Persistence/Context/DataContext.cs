@@ -32,7 +32,7 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
 
         // Indices y identidad
         modelBuilder.Entity<ProfileModel>()
-           .HasIndex(e => e.AccountID)
+           .HasIndex(e => e.AccountId)
            .IsUnique();
 
         modelBuilder.Entity<NoteAccessDataModel>()

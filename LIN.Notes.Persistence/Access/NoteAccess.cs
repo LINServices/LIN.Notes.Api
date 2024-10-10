@@ -184,7 +184,7 @@ public class NoteAccess(DataContext context)
                       where AI.NoteId == inventario
                        && (AI.State == NoteAccessState.Accepted
                        || AI.State == NoteAccessState.OnWait)
-                      join U in context.Profiles on AI.ProfileID equals U.ID
+                      join U in context.Profiles on AI.ProfileID equals U.Id
                       select new Tuple<NoteAccessDataModel, ProfileModel>(AI, U);
 
 

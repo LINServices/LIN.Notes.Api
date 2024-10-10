@@ -203,14 +203,14 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
         var result = await noteAccess.ReadMembers(inventario);
 
 
-        var map = result.Models.Select(T => T.Item2.AccountID).ToList();
+        var map = result.Models.Select(T => T.Item2.AccountId).ToList();
 
         var users = await Access.Auth.Controllers.Account.Read(map, tokenAuth);
 
 
         var i = (from I in result.Models
                  join A in users.Models
-                 on I.Item2.AccountID equals A.Id
+                 on I.Item2.AccountId equals A.Id
                  select new IntegrantDataModel
                  {
                      State = I.Item1.State,
@@ -218,7 +218,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
                      InventoryID = I.Item1.NoteId,
                      Nombre = A.Name,
                      Perfil = A.Profile,
-                     ProfileID = I.Item2.ID,
+                     ProfileID = I.Item2.Id,
                      Usuario = A.Identity.Unique
                  }).ToList();
 

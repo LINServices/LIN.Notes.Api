@@ -14,7 +14,7 @@ public class Profiles
     {
         // Consulta
         var query = (from U in context.Profiles
-                     where U.ID == id
+                     where U.Id == id
                      select U).Take(1);
 
         return query;
@@ -31,7 +31,7 @@ public class Profiles
     {
         // Consulta
         var query = from U in context.Profiles
-                    where id.Contains(U.ID)
+                    where id.Contains(U.Id)
                     select U;
 
         return query;
@@ -49,7 +49,7 @@ public class Profiles
     {
         // Consulta
         var query = from U in context.Profiles
-                    where id.Contains(U.AccountID)
+                    where id.Contains(U.AccountId)
                     select U;
 
         return query;
@@ -68,7 +68,7 @@ public class Profiles
     {
         // Consulta
         var query = (from U in context.Profiles
-                     where U.AccountID == id
+                     where U.AccountId == id
                      select U).Take(1);
 
         return query;

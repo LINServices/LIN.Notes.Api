@@ -52,7 +52,7 @@ public class AuthController (Profiles profiles) : ControllerBase
                         Account = authResponse.Model,
                         Profile = new()
                         {
-                            AccountID = authResponse.Model.Id,
+                            AccountId = authResponse.Model.Id,
                             Creation = DateTime.Now
                         }
                     });
@@ -142,7 +142,7 @@ public class AuthController (Profiles profiles) : ControllerBase
                         Account = authResponse.Model,
                         Profile = new()
                         {
-                            AccountID = authResponse.Model.Id,
+                            AccountId = authResponse.Model.Id,
                             Creation = DateTime.Now
                         }
                     });

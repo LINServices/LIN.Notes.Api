@@ -31,7 +31,7 @@ public partial class Notes(DataContext context)
                 {
                     a.Profile = new()
                     {
-                        ID = a.ProfileID,
+                        Id = a.ProfileID,
                     };
                     a.Note = data;
                     context.Attach(a.Profile);
