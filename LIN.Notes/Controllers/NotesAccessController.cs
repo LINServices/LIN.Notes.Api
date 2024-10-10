@@ -2,18 +2,14 @@
 
 namespace LIN.Notes.Controllers;
 
-
 [Route("Notes/access")]
 public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, NoteAccess noteAccess) : ControllerBase
 {
-
 
     /// <summary>
     /// Hub de contexto.
     /// </summary>
     private readonly IHubContext<NotesHub> _hubContext = hubContext;
-
-
 
 
     /// <summary>
@@ -81,7 +77,6 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
     }
 
 
-
     /// <summary>
     /// Obtener una notificación.
     /// </summary>
@@ -95,8 +90,6 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
         // Información del token.
         _ = HttpContext.Items[token] as JwtInformation ?? new();
 
-
-
         // Obtiene la lista de Id's de inventarios
         var result = await noteAccess.Read(id);
 
@@ -104,7 +97,6 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
         return result;
 
     }
-
 
 
     /// <summary>
@@ -126,7 +118,6 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
         return result;
 
     }
-
 
 
     /// <summary>
@@ -160,8 +151,6 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
         return result;
 
     }
-
-
 
 
     /// <summary>
@@ -227,7 +216,6 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
         return new(Responses.Success, i);
 
     }
-
 
 
     /// <summary>

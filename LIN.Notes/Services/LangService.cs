@@ -5,6 +5,9 @@ namespace LIN.Notes.Services;
 public class LangService(IConfiguration configuration)
 {
 
+    /// <summary>
+    /// Servicio idiomas.
+    /// </summary>
     public async Task<Languages> Lang(string content)
     {
 
@@ -16,7 +19,7 @@ public class LangService(IConfiguration configuration)
 
             StringContent stringContent = new(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
 
-            var result = await client.PostAsync("http://api.cloud.services.linplatform.com/IA/predict/lang", stringContent);
+            var result = await client.PostAsync("https://api.cloud.services.linplatform.com/IA/predict/lang", stringContent);
 
 
             var ss = await result.Content.ReadAsStringAsync();

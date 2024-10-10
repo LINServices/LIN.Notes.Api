@@ -2,16 +2,13 @@
 
 namespace LIN.Notes.Hubs;
 
-
 public class NotesHub(IIam Iam) : Hub
 {
-
 
     /// <summary>
     /// Lista de dispositivos.
     /// </summary>
     public static Dictionary<int, List<DeviceModel>> List { get; set; } = [];
-
 
 
     /// <summary>
@@ -33,7 +30,6 @@ public class NotesHub(IIam Iam) : Hub
         await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
     }
-
 
 
     /// <summary>
@@ -70,8 +66,6 @@ public class NotesHub(IIam Iam) : Hub
     }
 
 
-
-
     /// <summary>
     /// Eliminar de nota.
     /// </summary>
@@ -92,7 +86,6 @@ public class NotesHub(IIam Iam) : Hub
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
 
     }
-
 
 
     /// <summary>
@@ -123,7 +116,6 @@ public class NotesHub(IIam Iam) : Hub
     }
 
 
-
     /// <summary>
     /// Enviar comando.
     /// </summary>
@@ -134,7 +126,6 @@ public class NotesHub(IIam Iam) : Hub
         await Clients.Client(device).SendAsync("#command", command);
 
     }
-
 
 
     /// <summary>
@@ -159,6 +150,5 @@ public class NotesHub(IIam Iam) : Hub
         {
         }
     }
-
 
 }
