@@ -1,5 +1,4 @@
-﻿using LIN.Types.Notes.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace LIN.Notes.Persistence.Context;
 
@@ -50,7 +49,6 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
         modelBuilder.Entity<ProfileModel>().ToTable("profiles");
         modelBuilder.Entity<NoteDataModel>().ToTable("notes");
         modelBuilder.Entity<NoteAccessDataModel>().ToTable("note_access");
-
     }
 
 }

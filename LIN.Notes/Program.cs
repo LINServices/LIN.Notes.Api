@@ -3,6 +3,7 @@ using LIN.Access.Logger;
 using LIN.Notes.Services.Abstractions;
 using LIN.Access.Auth;
 using LIN.Notes.Persistence.Extensions;
+using LIN.Notes.Persistence.Context;
 
 // Create a builder.
 var builder = WebApplication.CreateBuilder(args);
@@ -37,5 +38,12 @@ app.UseRouting();
 
 // Inicio de Jwt
 Jwt.Open();
+
+builder.Services.AddDatabaseAction(() =>
+{
+    var context = app.Services.GetRequiredService<DataContext>();
+    context.Profiles.Where(x => x.Id == 0).FirstOrDefaultAsync();
+    return "Success";
+});
 
 app.Run();
