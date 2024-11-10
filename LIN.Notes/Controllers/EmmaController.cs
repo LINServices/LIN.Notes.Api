@@ -104,10 +104,10 @@ public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) :
         final += includeMethods ? """
             Estos son comandos, los cuales debes responder con el formato igual a este:
             
-            "#Comando(Propiedades en orden separados por coma si es necesario)"
+            "Comando(Propiedades en orden separados por coma si es necesario)"
             
             {
-              "name": "#select",
+              "name": "select",
               "description": "Abrir una nota, cuando el usuario se refiera a abrir una nota",
               "example":"#select(0)",
               "parameters": {
@@ -120,20 +120,7 @@ public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) :
               }
             }
             
-            {
-              "name": "#say",
-              "description": "Utiliza esta función para decirle algo al usuario como saludos o responder a preguntas.",
-              "example":"#say('Hola')",
-              "parameters": {
-                "properties": {
-                  "content": {
-                    "type": "string",
-                    "description": "contenido"
-                  }
-                }
-              }
-            }
-            
+         
             IMPORTANTE:
             No en todos los casos en necesario usar comandos, solo úsalos cuando se cumpla la descripción.
             
