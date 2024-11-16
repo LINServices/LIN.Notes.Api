@@ -7,12 +7,6 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
 {
 
     /// <summary>
-    /// Hub de contexto.
-    /// </summary>
-    private readonly IHubContext<NotesHub> _hubContext = hubContext;
-
-
-    /// <summary>
     /// Crear acceso a nota.
     /// </summary>
     /// <param name="model">Modelo.</param>
@@ -61,7 +55,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
             // Realtime.
             string groupName = $"group.{model.ProfileID}";
             string command = $"newInvitation({result.LastID})";
-            await _hubContext.Clients.Group(groupName).SendAsync("#command", new CommandModel()
+            await hubContext.Clients.Group(groupName).SendAsync("#command", new CommandModel()
             {
                 Command = command
             });

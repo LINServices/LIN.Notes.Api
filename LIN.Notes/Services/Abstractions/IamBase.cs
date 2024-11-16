@@ -3,7 +3,6 @@
 public interface IIam
 {
 
-
     /// <summary>
     /// Validar acceso.
     /// </summary>
@@ -17,6 +16,5 @@ public interface IIam
     /// </summary>
     /// <param name="request">Solicitud.</param>
     public Task<bool> Validate(IamRequest request);
-
 
 }

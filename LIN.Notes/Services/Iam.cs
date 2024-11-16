@@ -3,7 +3,6 @@ using LIN.Notes.Services.Abstractions;
 
 namespace LIN.Notes.Services;
 
-
 public class Iam(DataContext context) : IIam
 {
 
@@ -17,8 +16,9 @@ public class Iam(DataContext context) : IIam
 
         // Query.
         var access = await (from P in context.AccessNotes
-                            where P.Id == id && P.ProfileID == profile
-                            where P.State == NoteAccessState.OnWait
+                            where P.Id == id 
+                            && P.ProfileID == profile
+                            && P.State == NoteAccessState.OnWait
                             select new { P.NoteId }).FirstOrDefaultAsync();
 
         // Si no hay.
@@ -38,17 +38,15 @@ public class Iam(DataContext context) : IIam
         {
             case IamBy.Note:
                 return await OnNote(request.Id, request.Profile);
-
-
             case IamBy.Access:
                 return await OnAccess(request.Id, request.Profile);
-
+            default:
+                break;
         }
 
         return false;
 
     }
-
 
 
     /// <summary>
@@ -71,7 +69,6 @@ public class Iam(DataContext context) : IIam
     }
 
 
-
     /// <summary>
     /// Validar acceso.
     /// </summary>
@@ -91,4 +88,5 @@ public class Iam(DataContext context) : IIam
 
         return true;
     }
+
 }
