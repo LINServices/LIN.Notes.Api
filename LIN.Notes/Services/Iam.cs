@@ -16,7 +16,7 @@ public class Iam(DataContext context) : IIam
 
         // Query.
         var access = await (from P in context.AccessNotes
-                            where P.Id == id 
+                            where P.Id == id
                             && P.ProfileID == profile
                             && P.State == NoteAccessState.OnWait
                             select new { P.NoteId }).FirstOrDefaultAsync();

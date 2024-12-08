@@ -1,12 +1,14 @@
 using Http.Extensions;
-using LIN.Access.Logger;
-using LIN.Notes.Services.Abstractions;
 using LIN.Access.Auth;
-using LIN.Notes.Persistence.Extensions;
+using LIN.Access.Logger;
 using LIN.Notes.Persistence.Context;
+using LIN.Notes.Persistence.Extensions;
+using LIN.Notes.Services.Abstractions;
 
 // Create a builder.
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.AddServiceLogging("LIN.NOTES");
 
 // Services.
 builder.Services.AddSignalR();
@@ -18,13 +20,7 @@ builder.Services.AddScoped<HubService, HubService>();
 builder.Services.AddAuthenticationService();
 builder.Services.AddPersistence(builder.Configuration);
 
-// Logger.
-builder.Services.AddServiceLogging("LIN.NOTES");
-
 var app = builder.Build();
-
-// Agregar logging.
-app.UseServiceLogging();
 
 app.UseLINHttp();
 app.UseDataBase();

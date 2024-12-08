@@ -1,7 +1,6 @@
-﻿global using Global.Utilities;
-global using Http.ResponsesList;
-global using LIN.Notes;
+﻿global using Http.ResponsesList;
 global using LIN.Notes.Hubs;
+global using LIN.Notes.Persistence.Access;
 global using LIN.Notes.Services;
 global using LIN.Notes.Services.Model;
 global using LIN.Types.Cloud.Identity.Abstracts;
@@ -15,4 +14,3 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.IdentityModel.Tokens;
 global using Newtonsoft.Json;
 global using System.Text;
-global using LIN.Notes.Persistence.Access;

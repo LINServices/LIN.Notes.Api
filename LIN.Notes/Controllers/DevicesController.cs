@@ -1,4 +1,4 @@
- namespace LIN.Notes.Controllers;
+namespace LIN.Notes.Controllers;
 
 [Route("[controller]")]
 public class DevicesController : ControllerBase

@@ -110,7 +110,7 @@ public class NotesHub(IIam Iam) : Hub
             group = $"note.{comando.Note}";
         else
             group = $"group.{tokenInfo.ProfileId}";
-        
+
         await Clients.Group(group).SendAsync("#command", comando);
 
     }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace LIN.Notes.Persistence.Extensions;
 
@@ -33,15 +34,16 @@ public static class PersistenceExtensions
     /// </summary>
     public static IApplicationBuilder UseDataBase(this IApplicationBuilder app)
     {
+        var scope = app.ApplicationServices.CreateScope();
         try
         {
-            var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetService<DataContext>();
             context?.Database.EnsureCreated();
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            var logger = scope.ServiceProvider.GetService<ILogger<DataContext>>();
+            logger?.LogCritical(ex, "Error al crear la estructura de la base de datos");
         }
         return app;
     }

@@ -3,16 +3,13 @@ using System.Security.Claims;
 
 namespace LIN.Notes.Services;
 
-
 public class Jwt
 {
-
 
     /// <summary>
     /// Llave del token
     /// </summary>
     private static string JwtKey { get; set; } = string.Empty;
-
 
 
     /// <summary>
@@ -22,8 +19,6 @@ public class Jwt
     {
         JwtKey = Http.Services.Configuration.GetConfiguration("jwt:key");
     }
-
-
 
 
     /// <summary>
@@ -59,12 +54,10 @@ public class Jwt
         }
         catch (Exception ex)
         {
-            Access.Logger.Services.Logger.Current.Log(ex, Access.Logger.Models.LogLevels.Critical);
         }
 
         return string.Empty;
     }
-
 
 
     /// <summary>
@@ -130,6 +123,5 @@ public class Jwt
         };
 
     }
-
 
 }
