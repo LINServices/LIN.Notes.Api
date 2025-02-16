@@ -4,10 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LIN.Notes.Persistence.Access;
 
-
 public partial class Notes(DataContext context)
 {
-
 
     /// <summary>
     /// Crea un nueva nota.
@@ -20,61 +18,50 @@ public partial class Notes(DataContext context)
         // Modelo
         data.Id = 0;
 
-        // Transacción
-        using (var transaction = context.Database.BeginTransaction())
+        try
         {
-            try
+
+            // Guardar los accesos.
+            foreach (var a in data.UsersAccess)
             {
-
-
-                foreach (var a in data.UsersAccess)
+                a.Profile = new()
                 {
-                    a.Profile = new()
-                    {
-                        Id = a.ProfileID,
-                    };
-                    a.Note = data;
-                    context.Attach(a.Profile);
-                }
-
-                // InventoryId
-                context.Notes.Add(data);
-
-                // Guarda el inventario
-                await context.SaveChangesAsync();
-
-                // Finaliza
-                transaction.Commit();
-                return new(Responses.Success, data.Id);
+                    Id = a.ProfileID,
+                };
+                a.Note = data;
+                context.Attach(a.Profile);
             }
-            catch (Exception)
-            {
-                transaction.Rollback();
-                context.Remove(data);
-            }
+
+            // Guardar la nota.
+            context.Notes.Add(data);
+
+            await context.SaveChangesAsync();
+
+            // Finaliza
+            return new(Responses.Success, data.Id);
         }
-
-
+        catch (Exception)
+        {
+            context.Remove(data);
+        }
         return new();
     }
-
 
 
     /// <summary>
     /// Obtiene una nota.
     /// </summary>
     /// <param name="id">Id de la nota</param>
-    /// <param name="context">Contexto de conexión</param>
     public async Task<ReadOneResponse<NoteDataModel>> Read(int id)
     {
 
         // Ejecución
         try
         {
-            var res = await context.Notes.FirstOrDefaultAsync(T => T.Id == id);
+            var note = await context.Notes.FirstOrDefaultAsync(T => T.Id == id);
 
             // Si no existe el modelo
-            return res == null ? new(Responses.NotRows) : new(Responses.Success, res);
+            return note is null ? new(Responses.NotRows) : new(Responses.Success, note);
         }
         catch (Exception)
         {
@@ -82,7 +69,6 @@ public partial class Notes(DataContext context)
 
         return new();
     }
-
 
 
     /// <summary>
@@ -133,12 +119,10 @@ public partial class Notes(DataContext context)
     }
 
 
-
     /// <summary>
     /// Obtiene la lista de notas asociados a un perfil.
     /// </summary>
     /// <param name="id">Id del perfil.</param>
-    /// <param name="context">Contexto de conexión</param>
     public async Task<ReadAllResponse<NoteDataModel>> ReadAll(int id)
     {
 
@@ -173,7 +157,6 @@ public partial class Notes(DataContext context)
 
 
     }
-
 
 
     /// <summary>
@@ -212,7 +195,6 @@ public partial class Notes(DataContext context)
     /// </summary>
     /// <param name="id">Id de la nota.</param>
     /// <param name="color">Nuevo color.</param>
-    /// <param name="context">Contexto.</param>
     public async Task<ResponseBase> UpdateColor(int id, int color)
     {
 

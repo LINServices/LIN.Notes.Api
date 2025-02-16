@@ -28,7 +28,7 @@ public class AuthController(Profiles profiles) : ControllerBase
         if (authResponse.Response != Responses.Success)
             return new ReadOneResponse<AuthModel<ProfileModel>>
             {
-                Message = "Autenticación fallida",
+                Message = "Autenticación fallida.",
                 Response = authResponse.Response
             };
 
@@ -48,14 +48,11 @@ public class AuthController(Profiles profiles) : ControllerBase
 
                     // Crear el perfil.
                     var createResponse = await profiles.Create(new()
-                    {
-                        Account = authResponse.Model,
-                        Profile = new()
                         {
                             AccountId = authResponse.Model.Id,
                             Creation = DateTime.Now
                         }
-                    });
+                    );
 
                     // Si hubo un error.
                     if (createResponse.Response != Responses.Success)
@@ -138,14 +135,11 @@ public class AuthController(Profiles profiles) : ControllerBase
 
                     // Crear el perfil.
                     var createResponse = await profiles.Create(new()
-                    {
-                        Account = authResponse.Model,
-                        Profile = new()
                         {
                             AccountId = authResponse.Model.Id,
                             Creation = DateTime.Now
                         }
-                    });
+                    );
 
                     // Validar.
                     if (createResponse.Response != Responses.Success)

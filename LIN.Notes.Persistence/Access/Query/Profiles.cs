@@ -1,9 +1,7 @@
 ﻿namespace LIN.Notes.Persistence.Access.Query;
 
-
 public class Profiles
 {
-
 
     /// <summary>
     /// Obtener usuarios
@@ -12,7 +10,7 @@ public class Profiles
     /// <param name="context">Contexto</param>
     public static IQueryable<ProfileModel> Read(int id, DataContext context)
     {
-        // Consulta
+        // Consulta.
         var query = (from U in context.Profiles
                      where U.Id == id
                      select U).Take(1);
@@ -35,9 +33,7 @@ public class Profiles
                     select U;
 
         return query;
-
     }
-
 
 
     /// <summary>
@@ -57,8 +53,6 @@ public class Profiles
     }
 
 
-
-
     /// <summary>
     /// Obtener usuarios
     /// </summary>
@@ -74,7 +68,5 @@ public class Profiles
         return query;
 
     }
-
-
 
 }

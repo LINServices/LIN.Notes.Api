@@ -30,7 +30,7 @@ public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) :
         };
 
         // Generar el string content.
-        StringContent stringContent = new(Newtonsoft.Json.JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+        StringContent stringContent = new(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
         // Solicitud HTTP.
         var result = await client.PostAsync("https://api.emma.linplatform.com/emma", stringContent);
@@ -39,7 +39,7 @@ public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) :
         var response = await result.Content.ReadAsStringAsync();
 
         // Objeto.
-        var assistantResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<ReadOneResponse<AssistantResponse>>(response);
+        var assistantResponse = JsonConvert.DeserializeObject<ReadOneResponse<AssistantResponse>>(response);
 
         // Respuesta
         return assistantResponse ?? new(Responses.Undefined);
