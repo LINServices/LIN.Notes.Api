@@ -62,7 +62,7 @@ public class NoteController(IIam Iam, HubService hubService, Persistence.Access.
 
         // Enviar en Realtime.
         if (response.Response == Responses.Success)
-            await hubService.NewNote(tokenInfo.ProfileId, response.LastID);
+            await hubService.NewNote(tokenInfo.ProfileId, response.LastId);
 
         // Retorna
         return response;

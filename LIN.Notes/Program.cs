@@ -8,7 +8,7 @@ using LIN.Notes.Services.Abstractions;
 // Create a builder.
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.AddServiceLogging("LIN.NOTES");
+builder.Host.AddServiceLogging("LIN.NOTES", "");
 
 // Services.
 builder.Services.AddSignalR();

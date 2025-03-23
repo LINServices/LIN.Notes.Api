@@ -28,7 +28,7 @@ public class NoteAccess(DataContext context)
             if (exist > 0)
                 return new()
                 {
-                    LastID = exist,
+                    LastId = exist,
                     Response = Responses.ResourceExist
                 };
 
@@ -40,7 +40,7 @@ public class NoteAccess(DataContext context)
 
             return new(Responses.Success)
             {
-                LastID = model.Id
+                LastId = model.Id
             };
         }
         catch (Exception)

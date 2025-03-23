@@ -45,7 +45,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
         // Si el recurso ya existe.
         if (result.Response == Responses.ResourceExist)
         {
-            var update = await noteAccess.UpdateState(result.LastID, NoteAccessState.OnWait);
+            var update = await noteAccess.UpdateState(result.LastId, NoteAccessState.OnWait);
             result.Response = update.Response;
         }
 
@@ -54,7 +54,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
         {
             // Realtime.
             string groupName = $"group.{model.ProfileID}";
-            string command = $"newInvitation({result.LastID})";
+            string command = $"newInvitation({result.LastId})";
             await hubContext.Clients.Group(groupName).SendAsync("#command", new CommandModel()
             {
                 Command = command
@@ -65,7 +65,7 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
         return new CreateResponse()
         {
             Response = result.Response,
-            LastID = result.LastID
+            LastId = result.LastId
         };
 
     }
@@ -200,7 +200,6 @@ public class NotesAccessController(IHubContext<NotesHub> hubContext, IIam Iam, N
                      AccessID = I.Item1.Id,
                      InventoryID = I.Item1.NoteId,
                      Nombre = A.Name,
-                     Perfil = A.Profile,
                      ProfileID = I.Item2.Id,
                      Usuario = A.Identity.Unique
                  }).ToList();
