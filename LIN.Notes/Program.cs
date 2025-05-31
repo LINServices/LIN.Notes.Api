@@ -33,7 +33,7 @@ app.MapHub<NotesHub>("/Realtime/notes");
 app.UseRouting();
 
 // Inicio de Jwt
-Jwt.Open();
+Jwt.Open(builder.Configuration);
 
 builder.Services.AddDatabaseAction(() =>
 {
