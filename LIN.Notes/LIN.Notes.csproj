@@ -9,13 +9,14 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.14.0" />
-    <PackageReference Include="Http.Utils" Version="4.6.0" />
-    <PackageReference Include="LIN.Access.Auth" Version="4.1.0" />
+    <PackageReference Include="Azure.Identity" Version="1.16.0" />
+    <PackageReference Include="Http.Utils" Version="5.1.1" />
+    <PackageReference Include="LIN.Access.Auth" Version="2025.9.21" />
+    
     <PackageReference Include="LIN.Types.Cloud.OpenAssistant" Version="1.5.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Text.Json" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="System.Text.Json" Version="9.0.9" />
   </ItemGroup>
 
 	  <ItemGroup>
