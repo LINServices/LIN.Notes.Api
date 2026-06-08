@@ -24,6 +24,8 @@ public static class PersistenceExtensions
         services.AddScoped<NoteAccess, NoteAccess>();
         services.AddScoped<Access.Notes, Access.Notes>();
         services.AddScoped<Profiles, Profiles>();
+        services.AddScoped<Tasks, Tasks>();
+        services.AddScoped<Movements, Movements>();
 
         return services;
     }

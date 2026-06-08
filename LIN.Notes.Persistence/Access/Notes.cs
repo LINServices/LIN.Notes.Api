@@ -49,7 +49,7 @@ public partial class Notes(DataContext context)
 
 
     /// <summary>
-    /// Obtiene una nota.
+    /// Obtiene una nota con sus tareas.
     /// </summary>
     /// <param name="id">Id de la nota</param>
     public async Task<ReadOneResponse<NoteDataModel>> Read(int id)
@@ -58,7 +58,25 @@ public partial class Notes(DataContext context)
         // Ejecución
         try
         {
-            var note = await context.Notes.FirstOrDefaultAsync(T => T.Id == id);
+            var note = await context.Notes
+                .Where(n => n.Id == id)
+                .Select(n => new NoteDataModel
+                {
+                    Id = n.Id,
+                    Tittle = n.Tittle,
+                    Content = n.Content,
+                    Color = n.Color,
+                    Language = n.Language,
+                    LastUpdate = n.LastUpdate,
+                    Tasks = n.Tasks.Select(t => new TaskDataModel
+                    {
+                        Id = t.Id,
+                        Description = t.Description,
+                        IsCompleted = t.IsCompleted,
+                        NoteId = t.NoteId
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
 
             // Si no existe el modelo
             return note is null ? new(Responses.NotRows) : new(Responses.Success, note);
