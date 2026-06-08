@@ -158,6 +158,13 @@ public partial class Notes(DataContext context)
                           Tittle = I.Tittle,
                           Color = I.Color,
                           Language = I.Language,
+                          Tasks = I.Tasks.Select(t => new TaskDataModel
+                          {
+                              Id = t.Id,
+                              Description = t.Description,
+                              IsCompleted = t.IsCompleted,
+                              NoteId = t.NoteId
+                          }).ToList()
                       };
 
 
