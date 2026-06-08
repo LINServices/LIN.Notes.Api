@@ -8,6 +8,7 @@ using LIN.Notes.Services.Abstractions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Services.
+builder.Services.AddHealthChecks();
 builder.Services.AddSignalR();
 builder.Services.AddLINHttp();
 builder.Services.AddHttpContextAccessor();

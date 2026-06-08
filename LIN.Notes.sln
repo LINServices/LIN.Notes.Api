@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.5.33516.290
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11822.322 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIN.Notes", "LIN.Notes\LIN.Notes.csproj", "{71DADCA5-4F3E-4B0C-9E88-786F966FD4EF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIN.Access.Logger", "..\..\AccesoAPI\LIN.Access.Logger\LIN.Access.Logger.csproj", "{11251D84-58C6-4BF9-A1E7-1F21D81C39A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIN.Notes.Persistence", "LIN.Notes.Persistence\LIN.Notes.Persistence.csproj", "{04D95CA7-7BAF-44F8-93C0-A409692BDD50}"
 EndProject
@@ -22,12 +20,6 @@ Global
 		{71DADCA5-4F3E-4B0C-9E88-786F966FD4EF}.Local|Any CPU.Build.0 = Local|Any CPU
 		{71DADCA5-4F3E-4B0C-9E88-786F966FD4EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71DADCA5-4F3E-4B0C-9E88-786F966FD4EF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{11251D84-58C6-4BF9-A1E7-1F21D81C39A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{11251D84-58C6-4BF9-A1E7-1F21D81C39A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{11251D84-58C6-4BF9-A1E7-1F21D81C39A6}.Local|Any CPU.ActiveCfg = Debug|Any CPU
-		{11251D84-58C6-4BF9-A1E7-1F21D81C39A6}.Local|Any CPU.Build.0 = Debug|Any CPU
-		{11251D84-58C6-4BF9-A1E7-1F21D81C39A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{11251D84-58C6-4BF9-A1E7-1F21D81C39A6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{04D95CA7-7BAF-44F8-93C0-A409692BDD50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{04D95CA7-7BAF-44F8-93C0-A409692BDD50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04D95CA7-7BAF-44F8-93C0-A409692BDD50}.Local|Any CPU.ActiveCfg = Debug|Any CPU
