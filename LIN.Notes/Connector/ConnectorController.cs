@@ -11,7 +11,7 @@ public class ConnectorController(Profiles profiles, Persistence.Access.Notes not
     [HttpGet]
     public async Task<HttpReadAllResponse<NoteDataModel>> ReadAll([FromHeader] string token)
     {
-        var auth = await LIN.Access.Auth.Controllers.Authentication.Login(token);
+        var auth = await LIN.Access.Identity.Platform.Controllers.Identities.Authentication.ReadToken(token);
 
         var profile = await profiles.ReadByAccount(auth.Model.Id);
 

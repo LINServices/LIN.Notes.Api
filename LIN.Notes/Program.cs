@@ -1,5 +1,5 @@
 using Http.Extensions;
-using LIN.Access.Auth;
+using LIN.Access.Identity.Platform;
 using LIN.Notes.Persistence.Context;
 using LIN.Notes.Persistence.Extensions;
 using LIN.Notes.Services.Abstractions;
@@ -15,7 +15,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IIam, Iam>();
 builder.Services.AddScoped<LangService, LangService>();
 builder.Services.AddScoped<HubService, HubService>();
-builder.Services.AddAuthenticationService(app: builder.Configuration["lin:app"]);
+builder.Services.AddAuthenticationService(builder.Configuration, app: builder.Configuration["lin:app"]);
 builder.Services.AddPersistence(builder.Configuration);
 
 var app = builder.Build();

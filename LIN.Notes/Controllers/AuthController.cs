@@ -1,7 +1,9 @@
-﻿namespace LIN.Notes.Controllers;
+﻿using LIN.Types.Cloud.Identity.Platform.Abstracts;
+
+namespace LIN.Notes.Controllers;
 
 [Route("[controller]")]
-public class AuthController(Profiles profiles) : ControllerBase
+public class AuthController(Profiles profiles, IConfiguration configuration) : ControllerBase
 {
 
     /// <summary>
@@ -22,7 +24,7 @@ public class AuthController(Profiles profiles) : ControllerBase
             };
 
         // Respuesta de Cloud Identity.
-        var authResponse = await Access.Auth.Controllers.Authentication.Login(user, password);
+        var authResponse = await Access.Identity.Platform.Controllers.Identities.Authentication.Login(user, password, Guid.Parse(configuration["lin:app"]));
 
         // Autenticación errónea.
         if (authResponse.Response != Responses.Success)
@@ -108,7 +110,7 @@ public class AuthController(Profiles profiles) : ControllerBase
     {
 
         // Respuesta de autenticación
-        var authResponse = await Access.Auth.Controllers.Authentication.Login(token);
+        var authResponse = await Access.Identity.Platform.Controllers.Identities.Authentication.ReadToken(token);
 
         // Autenticación errónea
         if (authResponse.Response != Responses.Success)

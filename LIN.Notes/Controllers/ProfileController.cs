@@ -1,3 +1,5 @@
+using LIN.Types.Cloud.Identity.Platform.Abstracts;
+
 namespace LIN.Notes.Controllers;
 
 [Route("[controller]")]
@@ -42,36 +44,36 @@ public class ProfileController(Profiles profiles) : ControllerBase
     public async Task<HttpReadAllResponse<SessionModel<ProfileModel>>> Search([FromQuery] string pattern, [FromHeader] string token)
     {
 
-        // Usuarios.
-        var users = await Access.Auth.Controllers.Account.Search(pattern, token);
+        //// Usuarios.
+        //var users = await Access.Auth.Controllers.Account.Search(pattern, token);
 
-        // Si hubo un error.
-        if (users.Response != Responses.Success)
-            return new(users.Response);
+        //// Si hubo un error.
+        //if (users.Response != Responses.Success)
+        //    return new(users.Response);
 
-        // Mapear los ids de los usuarios.
-        var map = users.Models.Select(T => T.Id).ToList();
+        //// Mapear los ids de los usuarios.
+        //var map = users.Models.Select(T => T.Id).ToList();
 
-        // Obtiene el usuario.
-        var response = await profiles.ReadByAccounts(map);
+        //// Obtiene el usuario.
+        //var response = await profiles.ReadByAccounts(map);
 
-        // Unir las respuestas.
-        var joins = (from Account in users.Models
-                     join Profile in response.Models
-                     on Account.Id equals Profile.AccountId
-                     select new SessionModel<ProfileModel>
-                     {
-                         Account = Account,
-                         Profile = Profile
-                     }).ToList();
+        //// Unir las respuestas.
+        //var joins = (from Account in users.Models
+        //             join Profile in response.Models
+        //             on Account.Id equals Profile.AccountId
+        //             select new SessionModel<ProfileModel>
+        //             {
+        //                 Account = Account,
+        //                 Profile = Profile
+        //             }).ToList();
 
-        // Retorna el resultado.
-        return new ReadAllResponse<SessionModel<ProfileModel>>
-        {
-            Response = Responses.Success,
-            Models = joins
-        };
-
+        //// Retorna el resultado.
+        //return new ReadAllResponse<SessionModel<ProfileModel>>
+        //{
+        //    Response = Responses.Success,
+        //    Models = joins
+        //};
+        throw new NotImplementedException("Search is not implemented yet.");
     }
 
 }

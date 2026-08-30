@@ -1,4 +1,5 @@
 using LIN.Types.Cloud.OpenAssistant.Api;
+using Newtonsoft.Json.Linq;
 
 namespace LIN.Notes.Controllers;
 
@@ -57,8 +58,7 @@ public class EmmaController(Persistence.Access.Notes notes, Profiles profiles) :
     {
 
         // Validar token.
-        var response = await Access.Auth.Controllers.Authentication.Login(tokenAuth);
-
+        var response = await Access.Identity.Platform.Controllers.Identities.Authentication.ReadToken(tokenAuth);
 
         if (response.Response != Responses.Success)
         {

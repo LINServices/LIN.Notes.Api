@@ -10,11 +10,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="Azure.Identity" Version="1.21.0" />
-		<PackageReference Include="Http.Utils" Version="6.3.0" />
-		<PackageReference Include="LIN.Access.Auth" Version="2026.2.10" />
+		<PackageReference Include="Http.Utils" Version="6.5.0" />
+		<PackageReference Include="LIN.Access.Identity.Platform" Version="1.4.5" />
 
 		<PackageReference Include="LIN.Types.Cloud.OpenAssistant" Version="1.5.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.11" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
